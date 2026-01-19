@@ -35,21 +35,21 @@ async function main() {
         {
             name: 'Sheraton Addis',
             location: 'Taitu St, Addis Ababa',
-            image: 'https://media.cnn.com/api/v1/images/stellar/prod/160912144358-sheraton-addis-pool.jpg?q=w_1600,h_900,x_0,y_0,c_fill/w_1280',
+            image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1024&q=80',
             description: 'A Sanctuary of Grandeur. The Sheraton Addis, a Luxury Collection Hotel, Addis Ababa, sits opposite the National Palace.',
             adminEmail: 'admin.sheraton@lf.com',
             products: [
-                { name: 'Doro Wat', type: 'MEAL', price: 45.0, image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Doro_wat.jpg/1200px-Doro_wat.jpg' },
-                { name: 'Kitfo Special', type: 'MEAL', price: 40.0, image: 'https://upload.wikimedia.org/wikipedia/commons/2/22/Kitfo.jpg' },
-                { name: 'Veggie Combo', type: 'MEAL', price: 30.0, image: 'https://www.willflyforfood.net/wp-content/uploads/2021/09/ethiopian-food-beyaynetu.jpg' },
-                { name: 'Tibs Platter', type: 'MEAL', price: 35.0, image: 'https://migrationology.com/wp-content/uploads/2017/09/ethiopian-food-tibs.jpg' },
-                { name: 'Shiro Tagamino', type: 'MEAL', price: 25.0, image: 'https://miro.medium.com/v2/resize:fit:1400/1*j_N5yB4wO5sI-C12B1_xOA.jpeg' },
+                { name: 'Doro Wat', type: 'MEAL', price: 45.0, image: 'https://images.unsplash.com/photo-1594040226829-7f251ab46d80?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Kitfo Special', type: 'MEAL', price: 40.0, image: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Veggie Combo', type: 'MEAL', price: 30.0, image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Tibs Platter', type: 'MEAL', price: 35.0, image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Shiro Tagamino', type: 'MEAL', price: 25.0, image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Executive Suite', type: 'ROOM', price: 450.0, image: 'https://cache.marriott.com/content/dam/marriott-renditions/ADDLC/addlc-executive-suite-6616-hor-clsc.jpg' },
-                { name: 'Club Room', type: 'ROOM', price: 350.0, image: 'https://cache.marriott.com/content/dam/marriott-renditions/ADDLC/addlc-club-room-6612-hor-clsc.jpg' },
-                { name: 'Classic Room', type: 'ROOM', price: 250.0, image: 'https://cache.marriott.com/content/dam/marriott-renditions/ADDLC/addlc-classic-room-6608-hor-clsc.jpg' },
-                { name: 'Junior Suite', type: 'ROOM', price: 300.0, image: 'https://cache.marriott.com/content/dam/marriott-renditions/ADDLC/addlc-junior-suite-6614-hor-clsc.jpg' },
-                { name: 'Presidential Villa', type: 'ROOM', price: 2500.0, image: 'https://cache.marriott.com/content/dam/marriott-renditions/ADDLC/addlc-villa-living-6620-hor-clsc.jpg' },
+                { name: 'Executive Suite', type: 'ROOM', price: 450.0, image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Club Room', type: 'ROOM', price: 350.0, image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Classic Room', type: 'ROOM', price: 250.0, image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Junior Suite', type: 'ROOM', price: 300.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Presidential Villa', type: 'ROOM', price: 2500.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
                 { name: 'Swedish Massage', type: 'MASSAGE', price: 80.0, image: 'https://images.unsplash.com/photo-1600334019640-eb2854992797?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Deep Tissue', type: 'MASSAGE', price: 90.0, image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=500' },
@@ -74,21 +74,21 @@ async function main() {
         {
             name: 'Ethiopian Skylight Hotel',
             location: 'Bole International Airport',
-            image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/223788548.jpg?k=3f24040d85444ca0f52b75317075306913755452382597444747535798939626&o=&hp=1',
+            image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=1024',
             description: 'The largest hotel in Ethiopia, offering world-class amenities and convenience.',
             adminEmail: 'admin.skylight@lf.com',
             products: [
                 { name: 'Chinese Buffet', type: 'MEAL', price: 50.0, image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&q=80&w=500' },
-                { name: 'Ethiopian Platter', type: 'MEAL', price: 40.0, image: 'https://images.unsplash.com/photo-1606491956689-2ea28c674698?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Ethiopian Platter', type: 'MEAL', price: 40.0, image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Burger & Fries', type: 'MEAL', price: 20.0, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Pasta Carbonara', type: 'MEAL', price: 25.0, image: 'https://images.unsplash.com/photo-1612874742237-6526221588e3?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Grilled Fish', type: 'MEAL', price: 35.0, image: 'https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Standard King', type: 'ROOM', price: 180.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/200421715.jpg?k=123456' },
-                { name: 'Twin Room', type: 'ROOM', price: 200.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/200421716.jpg?k=123456' },
-                { name: 'Executive King', type: 'ROOM', price: 250.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/200421717.jpg?k=123456' },
-                { name: 'Diplomatic Suite', type: 'ROOM', price: 800.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/200421718.jpg?k=123456' },
-                { name: 'Presidential Suite', type: 'ROOM', price: 2000.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/200421719.jpg?k=123456' },
+                { name: 'Standard King', type: 'ROOM', price: 180.0, image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Twin Room', type: 'ROOM', price: 200.0, image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Executive King', type: 'ROOM', price: 250.0, image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Diplomatic Suite', type: 'ROOM', price: 800.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Presidential Suite', type: 'ROOM', price: 2000.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
                 { name: 'Gym Day Pass', type: 'SPA', price: 15.0, image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Sauna Session', type: 'SPA', price: 20.0, image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=500' },
@@ -113,7 +113,7 @@ async function main() {
         {
             name: 'Haile Resort Hawassa',
             location: 'Hawassa, Lake View',
-            image: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/11/a9/32/7f/main-building.jpg?w=1200&h=-1&s=1',
+            image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&q=80&w=1024',
             description: 'A perfect getaway by the beautiful Lake Hawassa.',
             adminEmail: 'admin.haile@lf.com',
             products: [
@@ -123,11 +123,11 @@ async function main() {
                 { name: 'Spaghetti Bolognese', type: 'MEAL', price: 18.0, image: 'https://images.unsplash.com/photo-1622973536968-3ead9e780960?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Club Sandwich', type: 'MEAL', price: 12.0, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Lake View Room', type: 'ROOM', price: 120.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/48695027.jpg?k=123456' },
-                { name: 'Garden View Room', type: 'ROOM', price: 100.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/48695028.jpg?k=123456' },
-                { name: 'Family Suite', type: 'ROOM', price: 200.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/48695029.jpg?k=123456' },
-                { name: 'Executive Suite', type: 'ROOM', price: 180.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/48695030.jpg?k=123456' },
-                { name: 'Bungalow', type: 'ROOM', price: 250.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/48695031.jpg?k=123456' },
+                { name: 'Lake View Room', type: 'ROOM', price: 120.0, image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Garden View Room', type: 'ROOM', price: 100.0, image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Family Suite', type: 'ROOM', price: 200.0, image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Executive Suite', type: 'ROOM', price: 180.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Bungalow', type: 'ROOM', price: 250.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
                 { name: 'Boat Trip', type: 'ENTERTAINMENT', price: 30.0, image: 'https://images.unsplash.com/photo-1544551763-46a8723ba3f9?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Fishing Gear', type: 'ENTERTAINMENT', price: 15.0, image: 'https://images.unsplash.com/photo-1535448033526-27e8576346a9?auto=format&fit=crop&q=80&w=500' },
@@ -152,7 +152,7 @@ async function main() {
         {
             name: 'Kuriftu Resort & Spa',
             location: 'Bishoftu',
-            image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622920.jpg?k=123456',
+            image: 'https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&q=80&w=1024',
             description: 'A luxurious spa resort offering peace and tranquility.',
             adminEmail: 'admin.kuriftu@lf.com',
             products: [
@@ -162,11 +162,11 @@ async function main() {
                 { name: 'Chicken Breast', type: 'MEAL', price: 28.0, image: 'https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Caesar Salad', type: 'MEAL', price: 18.0, image: 'https://images.unsplash.com/photo-1546793665-c74683f339c1?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Lake View Suite', type: 'ROOM', price: 250.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622921.jpg?k=123456' },
-                { name: 'Garden Bungalow', type: 'ROOM', price: 220.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622922.jpg?k=123456' },
-                { name: 'Standard Room', type: 'ROOM', price: 180.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622923.jpg?k=123456' },
-                { name: 'Deluxe Room', type: 'ROOM', price: 200.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622924.jpg?k=123456' },
-                { name: 'Presidential Suite', type: 'ROOM', price: 500.0, image: 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/49622925.jpg?k=123456' },
+                { name: 'Lake View Suite', type: 'ROOM', price: 250.0, image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Garden Bungalow', type: 'ROOM', price: 220.0, image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Standard Room', type: 'ROOM', price: 180.0, image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Deluxe Room', type: 'ROOM', price: 200.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Presidential Suite', type: 'ROOM', price: 500.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
                 { name: 'Couples Massage', type: 'SPA', price: 120.0, image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Facial Scrub', type: 'SPA', price: 50.0, image: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=500' },
@@ -191,7 +191,7 @@ async function main() {
         {
             name: 'Hilton Addis Ababa',
             location: 'Menelik II Ave, Addis Ababa',
-            image: 'https://www.hilton.com/im/en/ADDHITW/2330889/addhitw-exterior-day.jpg?impolicy=crop&cw=4121&ch=2318&gravity=NorthWest&xposition=0&yposition=339&rw=768&rh=432',
+            image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&q=80&w=1024',
             description: 'A landmark hotel with thermal pools and distinct architecture.',
             adminEmail: 'admin.hilton@lf.com',
             products: [
@@ -201,11 +201,11 @@ async function main() {
                 { name: 'Lasagna', type: 'MEAL', price: 35.0, image: 'https://images.unsplash.com/photo-1574868291634-79ea5d379a1e?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Steak Tartare', type: 'MEAL', price: 40.0, image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Guest Room', type: 'ROOM', price: 220.0, image: 'https://cache.hilton.com/image/content/ADDHITW/2330900/addhitw-guest-room-king.jpg' },
-                { name: 'Suite', type: 'ROOM', price: 400.0, image: 'https://cache.hilton.com/image/content/ADDHITW/2330901/addhitw-suite-king.jpg' },
-                { name: 'Executive Room', type: 'ROOM', price: 300.0, image: 'https://cache.hilton.com/image/content/ADDHITW/2330902/addhitw-executive-room-king.jpg' },
-                { name: 'Duplex Suite', type: 'ROOM', price: 600.0, image: 'https://cache.hilton.com/image/content/ADDHITW/2330903/addhitw-duplex-suite-king.jpg' },
-                { name: 'Apartment', type: 'ROOM', price: 500.0, image: 'https://cache.hilton.com/image/content/ADDHITW/2330904/addhitw-apartment-1bedroom.jpg' },
+                { name: 'Guest Room', type: 'ROOM', price: 220.0, image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Suite', type: 'ROOM', price: 400.0, image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Executive Room', type: 'ROOM', price: 300.0, image: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Duplex Suite', type: 'ROOM', price: 600.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Apartment', type: 'ROOM', price: 500.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
                 { name: 'Thermal Pool', type: 'SPA', price: 25.0, image: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Massage Therapy', type: 'SPA', price: 90.0, image: 'https://images.unsplash.com/photo-1519823551278-64ac927ac280?auto=format&fit=crop&q=80&w=500' },
