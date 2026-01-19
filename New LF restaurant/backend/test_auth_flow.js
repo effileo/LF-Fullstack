@@ -1,53 +1,70 @@
 
-import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
 
-const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret'; // Fallback to what env probably is if missing
+
+const BASE_URL = 'http://localhost:5000/api/auth';
+
+const testUser = {
+    name: "Test User",
+    email: `testuser_${Date.now()}@example.com`,
+    password: "password123",
+    phone: "1234567890",
+    address: "123 Test St",
+    gender: "Male",
+    age: 25,
+    job: "Tester"
+};
 
 async function testAuth() {
-    console.log('--- TEST START ---');
-    const email = 'curllog@example.com';
+    console.log("🚀 Starting Auth Flow Test...");
 
-    // 1. Find User
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-        console.log('User NOT FOUND in DB');
-        return;
-    }
-    console.log('1. User Found:', user.id);
-
-    // 2. Generate Token (simulate login)
-    const token = jwt.sign({ id: user.id, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    console.log('2. Token Generated');
-
-    // 3. Verify Token (simulate protect middleware)
+    // 1. Signup
+    console.log(`\n1. Testing Signup (${testUser.email})...`);
     try {
-        const decoded = jwt.verify(token, JWT_SECRET);
-        console.log('3. Token Decoded ID:', decoded.id);
+        const signupRes = await fetch(`${BASE_URL}/signup`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(testUser)
+        });
 
-        if (decoded.id !== user.id) {
-            console.error('MISMATCH! Decoded ID != User ID');
-        } else {
-            console.log('MATCH! Decoded ID == User ID');
+        const signupData = await signupRes.json();
+
+        if (signupRes.status !== 201) {
+            console.error("❌ Signup Failed:", signupData);
+            process.exit(1);
         }
 
-        // 4. DB Lookup using Decoded ID
-        const foundUser = await prisma.user.findUnique({ where: { id: decoded.id } });
-        if (foundUser) {
-            console.log('4. Middleware DB Lookup: SUCCESS');
-        } else {
-            console.error('4. Middleware DB Lookup: FAILED (User not found)');
+        console.log("✅ Signup Successful! ID:", signupData.id);
+        const token = signupData.token;
+
+        if (!token) {
+            console.error("❌ No token received in signup response");
+            process.exit(1);
         }
 
-    } catch (e) {
-        console.error('Token Verification Failed:', e);
+        // 2. Access Protected Route (Me)
+        console.log("\n2. Testing Protected Route (/me)...");
+        const meRes = await fetch(`${BASE_URL}/me`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const meData = await meRes.json();
+
+        if (meRes.status !== 200) {
+            console.error("❌ Protected Route Access Failed:", meData);
+            process.exit(1);
+        }
+
+        console.log("✅ Protected Route Accessed Successfully!");
+        console.log("   User:", meData.email, "| Role:", meData.role);
+
+        console.log("\n🎉 Auth Flow Verification Complete: SUCCESS");
+
+    } catch (error) {
+        console.error("❌ Network or Script Error:", error);
     }
 }
 
-testAuth()
-    .catch(e => console.error(e))
-    .finally(async () => {
-        await prisma.$disconnect();
-    });
+testAuth();

@@ -333,6 +333,7 @@ const HotelPage = () => {
                                     <div className="hotel-grid">
                                         {groupedProducts[type].map(product => (
                                             <div key={product.id} className="card">
+                                                <div style={{ height: '200px', marginBottom: '1rem', borderRadius: '8px', overflow: 'hidden', background: product.image ? `url(${product.image}) center/cover` : 'var(--glass-border)' }}></div>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                                     <h4 style={{ margin: 0 }}>{product.name}</h4>
                                                     <span style={{ fontWeight: 'bold' }}>{product.price} ETB</span>
@@ -353,7 +354,7 @@ const HotelPage = () => {
                     {/* TAB: RESERVE - Table, Spa, Meeting */}
                     {activeTab === 'reserve' && (
                         <div>
-                            {['RESERVATION_TABLE', 'SPA', 'MEETING_HALL'].map(type => groupedProducts[type] && groupedProducts[type].length > 0 && (
+                            {['RESERVATION_TABLE', 'SPA', 'MEETING_HALL', 'MASSAGE', 'ENTERTAINMENT', 'SWIMMING_POOL', 'PARK', 'OTHER'].map(type => groupedProducts[type] && groupedProducts[type].length > 0 && (
                                 <section key={type} style={{ marginBottom: '3rem' }}>
                                     <h3 style={{ marginBottom: '1.5rem', borderLeft: '4px solid var(--primary)', paddingLeft: '1rem', textTransform: 'capitalize' }}>
                                         {type.replace('RESERVATION_', '').replace('_', ' ')}
@@ -376,7 +377,7 @@ const HotelPage = () => {
                                 </section>
                             ))}
 
-                            {!groupedProducts['RESERVATION_TABLE'] && !groupedProducts['SPA'] && !groupedProducts['MEETING_HALL'] && (
+                            {!groupedProducts['RESERVATION_TABLE'] && !groupedProducts['SPA'] && !groupedProducts['MEETING_HALL'] && !groupedProducts['MASSAGE'] && !groupedProducts['ENTERTAINMENT'] && !groupedProducts['SWIMMING_POOL'] && !groupedProducts['PARK'] && (
                                 <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-muted)' }}>
                                     <Utensils size={48} style={{ marginBottom: '1rem', opacity: 0.5 }} />
                                     <h3>No Reservation Options Available</h3>
