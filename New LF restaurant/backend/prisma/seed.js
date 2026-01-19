@@ -51,13 +51,13 @@ async function main() {
                 { name: 'Junior Suite', type: 'ROOM', price: 300.0, image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Presidential Villa', type: 'ROOM', price: 2500.0, image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&q=80&w=500' },
 
-                { name: 'Swedish Massage', type: 'MASSAGE', price: 80.0, image: 'https://images.unsplash.com/photo-1600334019640-eb2854992797?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Swedish Massage', type: 'MASSAGE', price: 80.0, image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3dlZGlzaCUyMG1hc3NhZ2V8ZW58MHx8MHx8fDA%3D' },
                 { name: 'Deep Tissue', type: 'MASSAGE', price: 90.0, image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Aromatherapy', type: 'MASSAGE', price: 85.0, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=500' },
-                { name: 'Hot Stone', type: 'MASSAGE', price: 100.0, image: 'https://images.unsplash.com/photo-1591343395082-9b1475c46584?auto=format&fit=crop&q=80&w=500' },
-                { name: 'Reflexology', type: 'MASSAGE', price: 60.0, image: 'https://images.unsplash.com/photo-1519823551278-64ac927ac280?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Hot Stone', type: 'MASSAGE', price: 100.0, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGhvdCUyMHN0b25lJTIwbWFzc2FnZXxlbnwwfHwwfHx8MA%3D%3D' },
+                { name: 'Reflexology', type: 'MASSAGE', price: 60.0, image: 'https://images.unsplash.com/photo-1542848284-8afa78a08ccb?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmVmbGV4b2xvZ3l8ZW58MHx8MHx8fDA%3D' },
 
-                { name: 'Live Jazz Night', type: 'ENTERTAINMENT', price: 20.0, image: 'https://images.unsplash.com/photo-1514525253440-b393452e3383?auto=format&fit=crop&q=80&w=500' },
+                { name: 'Live Jazz Night', type: 'ENTERTAINMENT', price: 20.0, image: 'https://images.unsplash.com/photo-1757439160077-dd5d62a4d851?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGl2ZSUyMGphenolMjBiYW5kfGVufDB8fDB8fHww' },
                 { name: 'Cultural Dance', type: 'ENTERTAINMENT', price: 25.0, image: 'https://images.unsplash.com/photo-1508215885820-4585e56135c8?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Piano Bar', type: 'ENTERTAINMENT', price: 0.0, image: 'https://images.unsplash.com/photo-1550985543-f47f38aee65d?auto=format&fit=crop&q=80&w=500' },
                 { name: 'Pool Party', type: 'ENTERTAINMENT', price: 30.0, image: 'https://images.unsplash.com/photo-1576435728678-35d01fda117f?auto=format&fit=crop&q=80&w=500' },
