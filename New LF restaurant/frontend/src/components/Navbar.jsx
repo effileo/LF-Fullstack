@@ -33,7 +33,7 @@ export default function Navbar() {
 
         {isHome && (
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/90">
-            <Link to="/hotels" className="hover:text-[#C3965A] transition">
+            <Link to="/#collection" className="hover:text-[#C3965A] transition">
               DESTINATIONS
             </Link>
           </div>

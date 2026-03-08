@@ -27,7 +27,7 @@ const LoginPage = () => {
             } else if (response.data.role === 'HOTEL_ADMIN') {
                 navigate('/admin/hotel');
             } else {
-                navigate('/hotels');
+                navigate('/');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');

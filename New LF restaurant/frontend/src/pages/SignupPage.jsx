@@ -31,8 +31,7 @@ const SignupPage = () => {
             });
             sessionStorage.setItem('user', JSON.stringify(response.data));
             sessionStorage.setItem('token', response.data.token);
-            // Redirect to hotels page after successful signup
-            navigate('/hotels');
+            navigate('/');
         } catch (err) {
             setError(err.response?.data?.message || 'Signup failed. Please try again.');
         } finally {

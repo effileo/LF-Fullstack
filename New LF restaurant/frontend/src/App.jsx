@@ -9,7 +9,6 @@ import SuperAdminDashboard from './pages/SuperAdminDashboard';
 import HotelAdminDashboard from './pages/HotelAdminDashboard';
 import HotelAdminProfile from './pages/HotelAdminProfile';
 import HotelPage from './pages/HotelPage';
-import HotelListingPage from './pages/HotelListingPage';
 import UserProfile from './pages/UserProfile';
 import UserActivityPage from './pages/UserActivityPage';
 
@@ -22,7 +21,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    return <Navigate to="/hotels" replace />; // Redirect to hotels instead of root
+    return <Navigate to="/" replace />;
   }
 
   return children;
@@ -52,8 +51,8 @@ function App() {
           </ProtectedRoute>
         } />
 
-        {/* Public Hotel Page */}
-        <Route path="/hotels" element={<HotelListingPage />} />
+        {/* Hotels are on landing page; /hotels redirects to landing #collection */}
+        <Route path="/hotels" element={<Navigate to="/#collection" replace />} />
         <Route path="/hotel/:id" element={<HotelPage />} />
 
         {/* Protected Routes */}

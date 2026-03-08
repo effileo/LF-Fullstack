@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Star } from "lucide-react";
+import api from "../api/client";
 import Navbar from "../components/Navbar";
 import "../index.css";
 
@@ -61,9 +62,58 @@ const heroHotels = [
 ];
 
 export default function LandingPage() {
+  const [hotels, setHotels] = useState(heroHotels);
+  const cardsRef = useRef(null);
   const { scrollY } = useScroll();
+  const { scrollYProgress } = useScroll({
+    target: cardsRef,
+    offset: ["start end", "end start"],
+  });
+
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const res = await api.get("/hotels");
+        const list = res.data || [];
+        if (list.length > 0) {
+          const defaultImg = "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop";
+          setHotels(list.slice(0, 5).map((h) => ({
+            id: h.id,
+            name: h.name,
+            location: h.location || "",
+            rating: h.rating ?? 0,
+            description: h.description || "",
+            image: h.image || defaultImg,
+          })));
+        }
+      } catch (_) {
+        // keep static heroHotels on error
+      }
+    };
+    fetchHotels();
+  }, []);
+
   const heroContentY = useTransform(scrollY, [0, 420], [0, -100]);
   const heroContentOpacity = useTransform(scrollY, [0, 280], [1, 0]);
+
+  const card1Y = useTransform(scrollYProgress, [0, 0.22], [48, 0]);
+  const card1Opacity = useTransform(scrollYProgress, [0, 0.18], [0, 1]);
+  const card2Y = useTransform(scrollYProgress, [0.16, 0.38], [48, 0]);
+  const card2Opacity = useTransform(scrollYProgress, [0.16, 0.34], [0, 1]);
+  const card3Y = useTransform(scrollYProgress, [0.32, 0.54], [48, 0]);
+  const card3Opacity = useTransform(scrollYProgress, [0.32, 0.5], [0, 1]);
+  const card4Y = useTransform(scrollYProgress, [0.48, 0.7], [48, 0]);
+  const card4Opacity = useTransform(scrollYProgress, [0.48, 0.66], [0, 1]);
+  const card5Y = useTransform(scrollYProgress, [0.64, 0.86], [48, 0]);
+  const card5Opacity = useTransform(scrollYProgress, [0.64, 0.82], [0, 1]);
+
+  const cardTransforms = [
+    { y: card1Y, opacity: card1Opacity },
+    { y: card2Y, opacity: card2Opacity },
+    { y: card3Y, opacity: card3Opacity },
+    { y: card4Y, opacity: card4Opacity },
+    { y: card5Y, opacity: card5Opacity },
+  ];
 
   return (
     <main className="min-h-screen bg-[#080706] text-white overflow-x-hidden">
@@ -116,7 +166,7 @@ export default function LandingPage() {
               className="mt-8 sm:mt-10"
             >
               <Link
-                to="/hotels"
+                to="/#collection"
                 className="inline-flex min-h-[48px] sm:min-h-[52px] items-center justify-center rounded-md px-6 sm:px-8 py-3 bg-[#C3965A] text-black font-semibold text-[11px] sm:text-xs uppercase tracking-[0.2em] border border-[#C3965A] hover:brightness-110 active:scale-[0.98] transition touch-manipulation"
               >
                 EXPLORE DESTINATIONS
@@ -136,21 +186,18 @@ export default function LandingPage() {
           </motion.div>
         </div>
 
-        {/* Five hotel cards — vertical stack, alternating left/right */}
-        <div className="relative z-10 bg-[#080706] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24">
+        {/* Five hotel cards — vertical stack, scroll-driven flow (id for /#collection) */}
+        <div id="collection" ref={cardsRef} className="relative z-10 bg-[#080706] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24 scroll-mt-20">
           <div className="mx-auto max-w-7xl flex flex-col gap-8 sm:gap-10 md:gap-12">
-            {heroHotels.map((hotel, i) => {
+            {hotels.slice(0, 5).map((hotel, i) => {
               const imageLeft = i % 2 === 0;
+              const transform = cardTransforms[i] ?? cardTransforms[0];
               return (
-                <motion.article
-                  key={hotel.id}
-                  initial={{ opacity: 0, y: 36 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.15, margin: "-24px" }}
-                  transition={{ duration: 0.6, delay: i * 0.06 }}
-                  className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 shadow-lg"
-                >
-                  <Link to={`/hotel/${hotel.id}`} className="block">
+                <motion.div key={hotel.id} style={{ y: transform.y, opacity: transform.opacity }}>
+                  <motion.article
+                    className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 shadow-lg"
+                  >
+                  <Link to={`/hotel/${String(hotel.id)}`} className="block">
                     <div
                       className="grid grid-cols-1 md:grid-cols-2 min-h-[340px] sm:min-h-[380px] md:min-h-[420px]"
                     >
@@ -196,6 +243,7 @@ export default function LandingPage() {
                     </div>
                   </Link>
                 </motion.article>
+                </motion.div>
               );
             })}
           </div>
@@ -234,7 +282,7 @@ export default function LandingPage() {
       </section>
 
       {/* ——— CTA: scroll reveal, flowing ——— */}
-      <section className="border-t border-white/10 scroll-mt-20" style={{ background: "#0A0A0A" }}>
+      <section className="scroll-mt-20" style={{ background: "#0A0A0A" }}>
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -249,16 +297,10 @@ export default function LandingPage() {
           <p className="mt-3 sm:mt-4 text-white/70 text-[15px] sm:text-base">
             Explore our full collection of destinations.
           </p>
-          <Link
-            to="/hotels"
-            className="mt-8 inline-flex min-h-[48px] sm:min-h-12 items-center justify-center rounded-md px-8 bg-[#C3965A] text-black font-semibold text-[11px] sm:text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition touch-manipulation"
-          >
-            View All Hotels
-          </Link>
         </motion.div>
       </section>
 
-      <footer className="border-t border-white/10 py-6 sm:py-8" style={{ background: "#080706" }}>
+      <footer className="py-6 sm:py-8" style={{ background: "#080706" }}>
         <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <Link to="/" className="font-serif text-lg text-[#C3965A] hover:opacity-90 transition">
             LF Collection
