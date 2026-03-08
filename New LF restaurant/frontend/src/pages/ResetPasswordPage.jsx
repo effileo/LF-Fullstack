@@ -45,20 +45,11 @@ const ResetPasswordPage = () => {
             <Navbar />
 
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-                <div className="card" style={{ width: '100%', maxWidth: '400px', backdropFilter: 'blur(10px)', background: 'rgba(30, 30, 24, 0.85)', border: '1px solid var(--glass-border)' }}>
-                    <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '1.8rem', fontFamily: 'var(--font-heading)' }}>Set New Password</h2>
+                <div className="card auth-card">
+                    <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', fontSize: '1.5rem', fontFamily: 'var(--font-heading)', color: 'var(--primary)' }}>Set New Password</h2>
 
-                    {error && (
-                        <div style={{ background: 'rgba(244, 67, 54, 0.1)', color: '#ff6b6b', padding: '0.75rem', borderRadius: '4px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'center' }}>
-                            {error}
-                        </div>
-                    )}
-
-                    {message && (
-                        <div style={{ background: 'rgba(76, 175, 80, 0.1)', color: '#4caf50', padding: '0.75rem', borderRadius: '4px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'center' }}>
-                            {message}
-                        </div>
-                    )}
+                    {error && <div className="error-message">{error}</div>}
+                    {message && <div className="success-message">{message}</div>}
 
                     {!message && (
                         <form onSubmit={handleSubmit}>

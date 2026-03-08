@@ -1,123 +1,59 @@
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
-import React, { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react'; // Import ArrowLeft icon
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
-const Navbar = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const user = JSON.parse(sessionStorage.getItem('user'));
-    const [showProfileMenu, setShowProfileMenu] = useState(false); // Changed from React.useState to useState
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    const handleLogout = () => {
-        sessionStorage.removeItem('user');
-        sessionStorage.removeItem('token');
-        window.location.href = '/'; // Changed from navigate('/login') to window.location.href = '/'
-    };
+  return (
+    <header
+      className={[
+        "sticky top-0 z-50 transition-all duration-300",
+        scrolled
+          ? "bg-[#080706]/95 backdrop-blur-xl border-b border-white/10"
+          : "bg-transparent",
+      ].join(" ")}
+    >
+      <nav className="mx-auto h-20 max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <Link
+          to="/"
+          className="text-xl sm:text-2xl font-serif tracking-tight"
+          style={{ color: "#C3965A" }}
+        >
+          LF Collection
+        </Link>
 
-    const isActive = (path) => location.pathname === path ? 'active' : '';
+        {isHome && (
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/90">
+            <Link to="/hotels" className="hover:text-[#C3965A] transition">
+              DESTINATIONS
+            </Link>
+          </div>
+        )}
 
-    return (
-        <nav style={{
-            background: 'rgba(26, 26, 26, 0.95)', // Changed background color
-            backdropFilter: 'blur(10px)',
-            borderBottom: '1px solid var(--glass-border)',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            padding: '1rem 0' // Added padding
-        }}>
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}> {/* Removed height: '80px' */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}> {/* New wrapper div for back button and logo */}
-                    {location.pathname !== '/' && (
-                        <button
-                            onClick={() => navigate(-1)}
-                            style={{
-                                background: 'none',
-                                border: 'none',
-                                color: 'var(--text-muted)',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                padding: '0.5rem',
-                                borderRadius: '50%',
-                                transition: 'color 0.2s, background 0.2s'
-                            }}
-                            onMouseOver={e => { e.currentTarget.style.color = 'var(--primary)'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)' }}
-                            onMouseOut={e => { e.currentTarget.style.color = 'var(--text-muted)'; e.currentTarget.style.background = 'none' }}
-                            title="Go Back"
-                        >
-                            <ArrowLeft size={24} />
-                        </button>
-                    )}
-                    <Link to="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)', textDecoration: 'none', fontFamily: 'var(--font-heading)' }}> {/* Changed logo styling */}
-                        LF Collection
-                    </Link>
-                </div>
-
-                <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }}>
-
-
-
-                    {user ? (
-                        <>
-                            {user.role === 'SUPER_ADMIN' && <Link to="/admin/super" className="nav-link">Dashboard</Link>}
-                            {/* Removed Dashboard link for Hotel Admin as per request */}
-
-                            <div style={{ position: 'relative' }}>
-                                <button
-                                    onClick={() => setShowProfileMenu(!showProfileMenu)}
-                                    style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-                                >
-                                    <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
-                                        {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
-                                    </div>
-                                </button>
-
-                                {showProfileMenu && (
-                                    <div style={{
-                                        position: 'absolute',
-                                        top: '100%',
-                                        right: 0,
-                                        marginTop: '0.5rem',
-                                        background: '#1a1a1a',
-                                        border: '1px solid var(--glass-border)',
-                                        borderRadius: '8px',
-                                        padding: '0.5rem',
-                                        minWidth: '150px',
-                                        boxShadow: '0 4px 6px rgba(0,0,0,0.3)'
-                                    }}>
-                                        {user.role === 'HOTEL_ADMIN' ? (
-                                            <Link to="/admin/hotel/profile" className="nav-link" style={{ display: 'block', padding: '0.5rem 1rem' }} onClick={() => setShowProfileMenu(false)}>Hotel Profile</Link>
-                                        ) : (
-                                            <Link to="/profile" className="nav-link" style={{ display: 'block', padding: '0.5rem 1rem' }} onClick={() => setShowProfileMenu(false)}>My Profile</Link>
-                                        )}
-
-                                        {user.role !== 'HOTEL_ADMIN' && (
-                                            <Link to="/my-activity" className="nav-link" style={{ display: 'block', padding: '0.5rem 1rem' }} onClick={() => setShowProfileMenu(false)}>My Activity</Link>
-                                        )}
-
-                                        <button
-                                            onClick={handleLogout}
-                                            className="nav-link"
-                                            style={{ display: 'block', width: '100%', textAlign: 'left', padding: '0.5rem 1rem', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
-                                        >
-                                            Logout
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login" className={`btn btn - outline ${isActive('/login')} `} style={{ marginRight: '1rem' }}>Login</Link>
-                            <Link to="/signup" className={`btn btn - primary ${isActive('/signup')} `}>Sign Up</Link>
-                        </>
-                    )}
-                </div>
-            </div>
-        </nav>
-    );
-};
-
-export default Navbar;
+        <div className="flex items-center gap-3">
+          <Link
+            to="/login"
+            className="inline-flex h-10 items-center rounded-md px-5 border border-white/30 text-white/95 text-xs font-medium uppercase tracking-[0.14em] hover:bg-white/10 transition"
+          >
+            Log In
+          </Link>
+          <Link
+            to="/signup"
+            className="inline-flex h-10 items-center rounded-md px-5 bg-[#C3965A] text-black font-semibold text-xs uppercase tracking-[0.14em] border border-[#C3965A] hover:brightness-110 transition"
+          >
+            Sign Up
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+}

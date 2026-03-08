@@ -52,14 +52,10 @@ const SignupPage = () => {
             <Navbar />
 
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
-                <div className="card" style={{ width: '100%', maxWidth: '500px', backdropFilter: 'blur(10px)', background: 'rgba(30, 30, 24, 0.85)', border: '1px solid var(--glass-border)' }}>
-                    <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '2rem', fontFamily: 'var(--font-heading)' }}>Create Account</h2>
+                <div className="card auth-card" style={{ maxWidth: '500px' }}>
+                    <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', fontSize: '1.75rem', fontFamily: 'var(--font-heading)', color: 'var(--primary)' }}>Create Account</h2>
 
-                    {error && (
-                        <div style={{ background: 'rgba(244, 67, 54, 0.1)', color: '#ff6b6b', padding: '0.75rem', borderRadius: '4px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'center' }}>
-                            {error}
-                        </div>
-                    )}
+                    {error && <div className="error-message">{error}</div>}
 
                     <form onSubmit={handleSignup} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                         <div className="form-group" style={{ gridColumn: '1 / -1' }}>

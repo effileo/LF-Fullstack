@@ -13,12 +13,11 @@ const HotelCard = ({ hotel }) => {
                 justifyContent: 'center',
                 color: 'var(--text-muted)'
             }}>
-                {/* Placeholder for image - use name initial if no image */}
                 {!hotel.image && <span style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)' }}>{hotel.name.charAt(0)}</span>}
             </div>
             <div style={{ padding: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-                    <h3 style={{ fontSize: '1.25rem', marginBottom: 0 }}>{hotel.name}</h3>
+                    <h3 style={{ fontSize: '1.25rem', marginBottom: 0, color: 'var(--text-main)', fontFamily: 'var(--font-heading)' }}>{hotel.name}</h3>
                     <span className="badge" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Star size={12} fill="currentColor" /> {hotel.rating}
                     </span>
@@ -28,7 +27,7 @@ const HotelCard = ({ hotel }) => {
                     <MapPin size={14} /> {hotel.location}
                 </div>
 
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {hotel.description}
                 </p>
 

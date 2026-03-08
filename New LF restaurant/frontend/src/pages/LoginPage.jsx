@@ -48,14 +48,10 @@ const LoginPage = () => {
             <Navbar />
 
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
-                <div className="card" style={{ width: '100%', maxWidth: '400px', backdropFilter: 'blur(10px)', background: 'rgba(30, 30, 24, 0.85)', border: '1px solid var(--glass-border)' }}>
-                    <h2 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '2rem', fontFamily: 'var(--font-heading)' }}>Welcome Back</h2>
+                <div className="card auth-card">
+                    <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', fontSize: '1.75rem', fontFamily: 'var(--font-heading)', color: 'var(--primary)' }}>Welcome Back</h2>
 
-                    {error && (
-                        <div style={{ background: 'rgba(244, 67, 54, 0.1)', color: '#ff6b6b', padding: '0.75rem', borderRadius: '4px', marginBottom: '1.5rem', fontSize: '0.9rem', textAlign: 'center' }}>
-                            {error}
-                        </div>
-                    )}
+                    {error && <div className="error-message">{error}</div>}
 
                     <form onSubmit={handleLogin}>
                         <div className="form-group">
@@ -103,7 +99,7 @@ const LoginPage = () => {
                             <Link to="/forgot-password" style={{ color: 'var(--primary)', fontSize: '0.85rem', textDecoration: 'none' }}>Forgot Password?</Link>
                         </div>
 
-                        <button type="submit" className="btn btn-primary login-btn" style={{ width: '100%', marginTop: '1rem', transition: 'all 0.3s ease' }} disabled={loading}>
+                        <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }} disabled={loading}>
                             {loading ? 'Authenticating...' : 'Login'}
                         </button>
                     </form>
@@ -116,16 +112,6 @@ const LoginPage = () => {
                     </div>
                 </div>
             </div>
-
-            <style jsx>{`
-                .login-btn:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(196, 164, 132, 0.4);
-                }
-                .login-btn:active {
-                    transform: translateY(0);
-                }
-            `}</style>
         </div>
     );
 };

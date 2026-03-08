@@ -4,50 +4,52 @@ import Navbar from '../components/Navbar';
 import HotelCard from '../components/HotelCard';
 import '../index.css';
 
-const HotelListingPage = () => {
-    const [hotels, setHotels] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+export default function HotelListingPage() {
+  const [hotels, setHotels] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchHotels = async () => {
-            try {
-                const response = await api.get('/hotels');
-                setHotels(response.data);
-            } catch (error) {
-                console.error('Error fetching hotels:', error);
-                setError('Unable to load hotels. Please try again later.');
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchHotels();
-    }, []);
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const response = await api.get('/hotels');
+        setHotels(response.data || []);
+      } catch (err) {
+        console.error('Error fetching hotels:', err);
+        setError('Unable to load hotels. Please try again later.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchHotels();
+  }, []);
 
-    return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <Navbar />
+  return (
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg-body)' }}>
+      <Navbar />
 
-            <div className="container" style={{ padding: '4rem 2rem', flex: 1 }}>
-                <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem', position: 'relative' }}>
-                    Our Destinations
-                    <span style={{ display: 'block', width: '60px', height: '4px', background: 'var(--primary)', margin: '1rem auto 0' }}></span>
-                </h2>
-
-                {loading ? (
-                    <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}>Loading collection...</div>
-                ) : error ? (
-                    <div style={{ textAlign: 'center', color: 'red' }}>{error}</div>
-                ) : (
-                    <div className="hotel-grid">
-                        {hotels.map((hotel) => (
-                            <HotelCard key={hotel.id} hotel={hotel} />
-                        ))}
-                    </div>
-                )}
-            </div>
+      <div className="container page-section" style={{ flex: 1 }}>
+        <div className="text-center">
+          <h2 className="text-3xl sm:text-4xl mb-2" style={{ fontFamily: 'var(--font-heading)', color: 'var(--primary)' }}>
+            Our Destinations
+          </h2>
+          <p className="mb-12 max-w-xl mx-auto" style={{ color: 'var(--text-muted)', fontSize: '1rem', textAlign: 'center' }}>
+            Curated stays across Ethiopia’s finest addresses.
+          </p>
         </div>
-    );
-};
 
-export default HotelListingPage;
+        {loading ? (
+          <p className="text-center py-16" style={{ color: 'var(--text-muted)' }}>Loading collection…</p>
+        ) : error ? (
+          <p className="text-center py-16" style={{ color: '#f87171' }}>{error}</p>
+        ) : (
+          <div className="hotel-grid">
+            {hotels.map((hotel) => (
+              <HotelCard key={hotel.id} hotel={hotel} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

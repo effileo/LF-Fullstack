@@ -1,110 +1,271 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
-import '../index.css';
-const ServiceCard = ({ title, description, icon }) => (
-    <div className="card" style={{ padding: '2rem', textAlign: 'center', transition: 'transform 0.3s ease', flex: '0 1 350px' }}>
-        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{icon}</div>
-        <h3 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>{title}</h3>
-        <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>{description}</p>
-    </div>
-);
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Star } from "lucide-react";
+import Navbar from "../components/Navbar";
+import "../index.css";
 
-const LandingPage = () => {
-    // No specific state needed for static landing page content
-
-
-    return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <Navbar />
-
-            <header className="hero" style={{
-                height: '60vh',
-                background: 'linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url("https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")', // Placeholder hero BG
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundAttachment: 'fixed',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-            }}>
-                <div className="container" style={{ textAlign: 'center', color: 'white' }}>
-                    <h1 style={{ fontSize: '4rem', marginBottom: '1.5rem', textShadow: '2px 2px 4px rgba(0,0,0,0.5)', fontFamily: 'var(--font-heading)' }}>
-                        <span style={{ color: 'var(--primary)' }}>LF</span> Collection
-                    </h1>
-                    <p style={{ fontSize: '1.25rem', maxWidth: '600px', margin: '0 auto', opacity: 0.9 }}>
-                        Experience the epitome of Ethiopian hospitality. A curated selection of premium hotels and services.
-                    </p>
-                </div>
-            </header>
-
-            <main style={{ flex: 1 }}>
-                {/* About Section */}
-                <section style={{ padding: '5rem 2rem', background: 'var(--bg-body)' }}>
-                    <div className="container" style={{ textAlign: 'center', maxWidth: '800px' }}>
-                        <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', fontFamily: 'var(--font-heading)' }}>Redefining Luxury</h2>
-                        <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-muted)' }}>
-                            Welcome to the LF Collection, where every stay is a story waiting to be told. We bring together the finest accommodations,
-                            exquisite dining, and world-class amenities to create unforgettable experiences in Ethiopia.
-                            Whether you are here for business, leisure, or a special celebration, we promise perfection in every detail.
-                        </p>
-                    </div>
-                </section>
-
-                {/* Services Section */}
-                <section style={{ padding: '5rem 2rem', background: 'rgba(255,255,255,0.02)' }}>
-                    <div className="container">
-                        <h2 style={{ textAlign: 'center', marginBottom: '4rem', fontSize: '2.5rem' }}>Our Services</h2>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem' }}>
-                            <ServiceCard
-                                title="Luxury Accommodation"
-                                description="Stay in meticulously designed rooms and suites that offer the perfect blend of comfort and elegance."
-                                icon="🛏️"
-                            />
-                            <ServiceCard
-                                title="Fine Dining"
-                                description="Savor culinary masterpieces crafted by our expert chefs using the freshest local and international ingredients."
-                                icon="🍽️"
-                            />
-                            <ServiceCard
-                                title="Wellness & Spa"
-                                description="Rejuvenate your mind and body with our comprehensive spa treatments and state-of-the-art fitness centers."
-                                icon="🌿"
-                            />
-                            <ServiceCard
-                                title="Events & Meetings"
-                                description="Host your events in our versatile venues, equipped with modern technology and supported by dedicated planning teams."
-                                icon="🤝"
-                            />
-                            <ServiceCard
-                                title="Entertainment"
-                                description="Enjoy world-class entertainment, from live music to cultural performances, right within our premises."
-                                icon="🎭"
-                            />
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA Section */}
-                <section style={{ padding: '6rem 2rem', textAlign: 'center', background: 'linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url("https://images.unsplash.com/photo-1571896349842-6e5a51335005?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80")', backgroundSize: 'cover', backgroundAttachment: 'fixed' }}>
-                    <div className="container">
-                        <h2 style={{ fontSize: '3rem', marginBottom: '1.5rem', fontFamily: 'var(--font-heading)' }}>Ready to Experience Excellence?</h2>
-                        <p style={{ fontSize: '1.2rem', marginBottom: '3rem', maxWidth: '600px', margin: '0 auto 3rem' }}>
-                            Explore our collection of top-rated hotels and find the perfect destination for your next journey.
-                        </p>
-                        <a href="/hotels" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem', textDecoration: 'none', display: 'inline-block' }}>
-                            Explore Our Hotels
-                        </a>
-                    </div>
-                </section>
-            </main>
-
-            <footer style={{ background: 'var(--bg-card)', padding: '2rem 0', marginTop: 'auto', borderTop: '1px solid var(--glass-border)' }}>
-                <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                    <p>&copy; {new Date().getFullYear()} LF Restaurant Collection. All rights reserved.</p>
-                </div>
-            </footer>
-        </div>
-    );
+const heroReveal = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 },
 };
 
-export default LandingPage;
+const scrollReveal = {
+  hidden: { opacity: 0, y: 32 },
+  show: { opacity: 1, y: 0 },
+};
+
+const sectionTransition = { duration: 0.7, ease: [0.22, 1, 0.36, 1] };
+
+const heroHotels = [
+  {
+    id: 1,
+    name: "Sheraton Addis",
+    location: "Taitu St, Addis Ababa",
+    rating: 4,
+    description: "A Sanctuary of Grandeur. The Sheraton Addis, a Luxury Collection Hotel, Addis Ababa, sits opposite the National Palace in the heart of the city.",
+    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 2,
+    name: "Ethiopian Skylight Hotel",
+    location: "Bole International Airport",
+    rating: 4.2,
+    description: "The largest hotel in Ethiopia, offering world-class amenities and convenience.",
+    image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 3,
+    name: "Haile Resort Hawassa",
+    location: "Hawassa, Lake View",
+    rating: 4.2,
+    description: "A perfect getaway by the beautiful Lake Hawassa.",
+    image: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 4,
+    name: "Kuriftu Resort & Spa",
+    location: "Bishoftu",
+    rating: 3.9,
+    description: "Lakeside retreat with spa, pools and serene views.",
+    image: "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    id: 5,
+    name: "Hilton Addis Ababa",
+    location: "Menelik II Ave, Addis Ababa",
+    rating: 3.7,
+    description: "A landmark hotel with thermal pools and distinct hospitality in the capital.",
+    image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=800&auto=format&fit=crop",
+  },
+];
+
+export default function LandingPage() {
+  const { scrollY } = useScroll();
+  const heroContentY = useTransform(scrollY, [0, 420], [0, -100]);
+  const heroContentOpacity = useTransform(scrollY, [0, 280], [1, 0]);
+
+  return (
+    <main className="min-h-screen bg-[#080706] text-white overflow-x-hidden">
+      <Navbar />
+
+      {/* ——— 1. Hero: headline + 5 hotel cards on same section ——— */}
+      <section className="relative flex flex-col overflow-hidden">
+        <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center">
+          <img
+            src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2000&auto=format&fit=crop"
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.62) 35%, rgba(0,0,0,0.82) 65%, rgba(0,0,0,0.95) 85%, #000000 100%)",
+            }}
+          />
+          <motion.div
+            style={{ y: heroContentY, opacity: heroContentOpacity }}
+            className="relative z-10 flex flex-col items-center text-center px-4 pt-20 pb-12 sm:pt-24 sm:pb-16 safe-area-inset"
+          >
+            <motion.p
+              variants={heroReveal}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6 }}
+              className="text-[11px] sm:text-xs uppercase tracking-[0.28em] text-[#C3965A] font-sans"
+            >
+              A CURATED WORLD
+            </motion.p>
+            <motion.h1
+              variants={heroReveal}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6, delay: 0.08 }}
+              className="mt-5 sm:mt-6 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] text-white max-w-4xl px-1"
+            >
+              Elegance
+              <br />
+              In Stillness
+            </motion.h1>
+            <motion.div
+              variants={heroReveal}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6, delay: 0.16 }}
+              className="mt-8 sm:mt-10"
+            >
+              <Link
+                to="/hotels"
+                className="inline-flex min-h-[48px] sm:min-h-[52px] items-center justify-center rounded-md px-6 sm:px-8 py-3 bg-[#C3965A] text-black font-semibold text-[11px] sm:text-xs uppercase tracking-[0.2em] border border-[#C3965A] hover:brightness-110 active:scale-[0.98] transition touch-manipulation"
+              >
+                EXPLORE DESTINATIONS
+              </Link>
+            </motion.div>
+            <motion.a
+              href="#philosophy"
+              variants={heroReveal}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6, delay: 0.24 }}
+              className="mt-12 sm:mt-14 flex flex-col items-center gap-2 text-white/70 hover:text-white/90 transition-colors touch-manipulation"
+            >
+              <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
+              <span className="h-6 sm:h-8 w-px bg-white/50" aria-hidden />
+            </motion.a>
+          </motion.div>
+        </div>
+
+        {/* Five hotel cards — vertical stack, alternating left/right */}
+        <div className="relative z-10 bg-[#080706] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24">
+          <div className="mx-auto max-w-7xl flex flex-col gap-8 sm:gap-10 md:gap-12">
+            {heroHotels.map((hotel, i) => {
+              const imageLeft = i % 2 === 0;
+              return (
+                <motion.article
+                  key={hotel.id}
+                  initial={{ opacity: 0, y: 36 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15, margin: "-24px" }}
+                  transition={{ duration: 0.6, delay: i * 0.06 }}
+                  className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 shadow-lg"
+                >
+                  <Link to={`/hotel/${hotel.id}`} className="block">
+                    <div
+                      className="grid grid-cols-1 md:grid-cols-2 min-h-[340px] sm:min-h-[380px] md:min-h-[420px]"
+                    >
+                      <div
+                        className={`relative min-h-[260px] sm:min-h-[300px] md:min-h-full ${imageLeft ? "md:order-1" : "md:order-2"}`}
+                      >
+                        <motion.img
+                          src={hotel.image}
+                          alt={hotel.name}
+                          className="absolute inset-0 h-full w-full object-cover"
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ duration: 0.5 }}
+                        />
+                      </div>
+                      <div
+                        className={`flex flex-col justify-center p-6 sm:p-8 md:p-10 ${imageLeft ? "md:order-2" : "md:order-1"}`}
+                        style={{ background: "#0A0A0A" }}
+                      >
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <span className="text-[10px] sm:text-xs uppercase tracking-[0.22em] text-[#C3965A]">
+                            {hotel.location}
+                          </span>
+                          <span
+                            className="flex items-center gap-1 shrink-0 text-xs font-medium px-2 py-1 rounded"
+                            style={{ background: "rgba(195,150,90,0.2)", color: "#C3965A" }}
+                          >
+                            <Star size={12} fill="currentColor" /> {hotel.rating}
+                          </span>
+                        </div>
+                        <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-white leading-tight">
+                          {hotel.name}
+                        </h2>
+                        <p className="mt-3 sm:mt-4 text-white/75 text-sm sm:text-base leading-relaxed line-clamp-3">
+                          {hotel.description}
+                        </p>
+                        <span
+                          className="mt-5 sm:mt-6 inline-flex items-center gap-2 text-white/80 text-xs font-medium uppercase tracking-widest hover:text-[#C3965A] transition-colors"
+                        >
+                          Explore property
+                          <span aria-hidden>—</span>
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ——— 2. Philosophy: solid black, centered, subheading with flanking lines ——— */}
+      <section id="philosophy" className="bg-black scroll-mt-20">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25, margin: "-40px" }}
+          variants={scrollReveal}
+          transition={sectionTransition}
+          className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-28 text-center"
+        >
+          <p
+            className="text-[10px] sm:text-xs uppercase tracking-[0.28em] flex items-center justify-center gap-4 mb-6 sm:mb-8"
+            style={{ color: "#C3965A" }}
+          >
+            <span className="block w-12 sm:w-16 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.8 }} aria-hidden />
+            OUR PHILOSOPHY
+            <span className="block w-12 sm:w-16 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.8 }} aria-hidden />
+          </p>
+          <p
+            className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.4] text-white"
+            style={{ fontFamily: "var(--font-heading, 'Playfair Display', serif)" }}
+          >
+            We believe that true luxury is found in{" "}
+            <em style={{ color: "#BFA37E", fontStyle: "italic" }}>
+              uninterrupted peace.
+            </em>{" "}
+            Handcrafted spaces designed for profound connection.
+          </p>
+        </motion.div>
+      </section>
+
+      {/* ——— CTA: scroll reveal, flowing ——— */}
+      <section className="border-t border-white/10 scroll-mt-20" style={{ background: "#0A0A0A" }}>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={scrollReveal}
+          transition={sectionTransition}
+          className="mx-auto max-w-3xl px-4 py-14 sm:py-16 md:py-20 text-center"
+        >
+          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-white">
+            Begin Your Journey
+          </h3>
+          <p className="mt-3 sm:mt-4 text-white/70 text-[15px] sm:text-base">
+            Explore our full collection of destinations.
+          </p>
+          <Link
+            to="/hotels"
+            className="mt-8 inline-flex min-h-[48px] sm:min-h-12 items-center justify-center rounded-md px-8 bg-[#C3965A] text-black font-semibold text-[11px] sm:text-xs uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition touch-manipulation"
+          >
+            View All Hotels
+          </Link>
+        </motion.div>
+      </section>
+
+      <footer className="border-t border-white/10 py-6 sm:py-8" style={{ background: "#080706" }}>
+        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+          <Link to="/" className="font-serif text-lg text-[#C3965A] hover:opacity-90 transition">
+            LF Collection
+          </Link>
+          <p className="text-white/50 text-sm">© {new Date().getFullYear()} LF Collection.</p>
+        </div>
+      </footer>
+    </main>
+  );
+}
