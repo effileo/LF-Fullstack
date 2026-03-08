@@ -4,12 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 export default function Navbar() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isHotelPage = /^\/hotel\/[^/]+$/.test(location.pathname);
+  const hasHero = isHome || isHotelPage;
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${isHome ? "bg-transparent" : ""}`}
+      className={`sticky top-0 z-50 transition-all duration-300 ${hasHero ? "bg-transparent" : ""}`}
       style={
-        isHome
+        hasHero
           ? { background: "transparent", boxShadow: "none", backdropFilter: "none" }
           : {
               background: "rgba(10,10,10,0.5)",
@@ -27,11 +29,17 @@ export default function Navbar() {
           LF Collection
         </Link>
 
-        {isHome && (
+        {(isHome || isHotelPage) && (
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/80">
-            <Link to="/#collection" className="hover:text-[#C3965A] transition-colors duration-200">
-              DESTINATIONS
-            </Link>
+            {isHome ? (
+              <Link to="/#collection" className="hover:text-[#C3965A] transition-colors duration-200">
+                DESTINATIONS
+              </Link>
+            ) : (
+              <Link to="/" className="hover:text-[#C3965A] transition-colors duration-200">
+                HOME
+              </Link>
+            )}
           </div>
         )}
 

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import api from '../api/client';
 import Navbar from '../components/Navbar';
 import CalendarComponent from '../components/CalendarComponent';
-import { Star, MapPin, CheckCircle, X, Coffee, Bed, Utensils, Calendar as CalendarIcon, Activity, Info, Bell, Phone } from 'lucide-react';
+import { Star, MapPin, CheckCircle, X, Utensils, Calendar as CalendarIcon, Bell, Phone, Bed, Info } from 'lucide-react';
 import '../index.css';
+
+const heroReveal = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 
 const HotelPage = () => {
     const { id } = useParams();
@@ -116,35 +119,88 @@ const HotelPage = () => {
         setReservationDate(new Date());
     };
 
-    if (!hotel) return <div style={{ minHeight: '100vh', background: 'var(--bg-body)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading Experience...</div>;
+    const { scrollY } = useScroll();
+    const heroContentY = useTransform(scrollY, [0, 380], [0, -90]);
+    const heroContentOpacity = useTransform(scrollY, [0, 260], [1, 0]);
+
+    const defaultImg = 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2000&auto=format&fit=crop';
+    const heroImage = hotel?.image || defaultImg;
+
+    if (!hotel) return (
+        <main className="min-h-screen bg-[#080706] text-white flex items-center justify-center">
+            <Navbar />
+            <p className="text-white/70">Loading experience…</p>
+        </main>
+    );
+
+    const nameParts = hotel.name.split(' ');
+    const nameLine1 = nameParts.length > 2 ? nameParts.slice(0, 2).join(' ') : nameParts[0] || hotel.name;
+    const nameLine2 = nameParts.length > 2 ? nameParts.slice(2).join(' ') : nameParts[1] || '';
 
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+        <main className="min-h-screen bg-[#080706] text-white overflow-x-hidden flex flex-col">
             <Navbar />
 
-            {/* Hotel Banner */}
-            <header className="hero" style={{
-                height: '50vh',
-                background: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.9)), url("${hotel.image || 'https://images.unsplash.com/photo-1566073771259-6a8506099945'}")`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                alignItems: 'flex-end',
-                paddingBottom: '0',
-                position: 'relative'
-            }}>
-                <div className="container" style={{ width: '100%', paddingBottom: '2rem' }}>
-                    <div className="animate-fade-up">
-                        <h1 style={{ fontSize: '3.5rem', marginBottom: '0.5rem', color: 'white', textShadow: '0 4px 12px rgba(0,0,0,0.5)' }}>{hotel.name}</h1>
-                        <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', color: 'rgba(255,255,255,0.9)', marginBottom: '1rem', fontSize: '1.1rem' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><MapPin size={20} color="var(--primary)" /> {hotel.location}</span>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                <Star size={20} fill="gold" stroke="none" /> {hotel.rating} Stars
-                                <button onClick={() => setShowRatingModal(true)} style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '4px', padding: '0.2rem 0.5rem', color: 'white', cursor: 'pointer', fontSize: '0.8rem', marginLeft: '0.5rem' }}>Rate Us</button>
+            {/* Hero: same structure as main landing — extends behind nav, dark overlay, centered title */}
+            <section className="relative flex flex-col overflow-hidden -mt-20">
+                <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center pt-20">
+                    <img
+                        src={heroImage}
+                        alt=""
+                        className="absolute inset-0 h-full w-full object-cover"
+                    />
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: 'linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.94) 85%, #000000 100%)',
+                        }}
+                    />
+                    <motion.div
+                        style={{ y: heroContentY, opacity: heroContentOpacity }}
+                        className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 safe-area-inset min-h-[70vh]"
+                    >
+                        <motion.p
+                            variants={heroReveal}
+                            initial="hidden"
+                            animate="show"
+                            transition={{ duration: 0.6 }}
+                            className="text-xs sm:text-sm uppercase tracking-[0.32em] font-medium mb-4"
+                            style={{ color: '#C3965A' }}
+                        >
+                            {hotel.location}
+                        </motion.p>
+                        <motion.h1
+                            variants={heroReveal}
+                            initial="hidden"
+                            animate="show"
+                            transition={{ duration: 0.7, delay: 0.1 }}
+                            className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.12]"
+                            style={{ fontFamily: 'var(--font-heading)' }}
+                        >
+                            {nameLine1}
+                            {nameLine2 && <><br />{nameLine2}</>}
+                        </motion.h1>
+                        <motion.div
+                            variants={heroReveal}
+                            initial="hidden"
+                            animate="show"
+                            transition={{ duration: 0.6, delay: 0.2 }}
+                            className="mt-6 flex items-center gap-4 text-white/80 text-sm"
+                        >
+                            <span className="flex items-center gap-1.5">
+                                <Star size={18} className="text-[#C3965A]" fill="#C3965A" stroke="none" /> {hotel.rating}
                             </span>
-                        </div>
-                    </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowRatingModal(true)}
+                                className="px-3 py-1 rounded border border-white/30 text-white/90 hover:bg-white/10 transition text-xs uppercase tracking-wider"
+                            >
+                                Rate
+                            </button>
+                        </motion.div>
+                    </motion.div>
                 </div>
-            </header>
+            </section>
 
             {/* Rating Modal */}
             {showRatingModal && (
@@ -183,42 +239,31 @@ const HotelPage = () => {
                 </div>
             )}
 
-            {/* Navigation Tabs */}
-            <div style={{ background: 'var(--bg-card)', borderBottom: '1px solid var(--glass-border)', position: 'sticky', top: '70px', zIndex: 90 }}>
-                <div className="container" style={{ overflowX: 'auto' }}>
-                    <div style={{ display: 'flex', gap: '2rem' }}>
-                        {[
-                            { id: 'landing', label: 'Overview' },
-                            { id: 'menu', label: 'Menu' },
-                            { id: 'reserve', label: 'Reserve Services' },
-                            { id: 'booking', label: 'Book Room' },
-                            { id: 'contact', label: 'Contact' }
-                        ].map(tab => (
-                            <button
-                                key={tab.id}
-                                onClick={() => setActiveTab(tab.id)}
-                                style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    padding: '1.5rem 0',
-                                    color: activeTab === tab.id ? 'var(--primary)' : 'var(--text-muted)',
-                                    borderBottom: activeTab === tab.id ? '3px solid var(--primary)' : '3px solid transparent',
-                                    fontSize: '1rem',
-                                    fontWeight: 'bold',
-                                    textTransform: 'uppercase',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.3s ease',
-                                    whiteSpace: 'nowrap'
-                                }}
-                            >
-                                {tab.label}
-                            </button>
-                        ))}
-                    </div>
+            {/* Tabs — same dark minimal look as landing */}
+            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
+                <div className="flex flex-wrap gap-0 rounded-xl bg-black/40 backdrop-blur-sm p-1 border border-white/10">
+                    {[
+                        { id: 'landing', label: 'Overview', icon: <Info size={16} /> },
+                        { id: 'menu', label: 'Menu', icon: <Utensils size={16} /> },
+                        { id: 'reserve', label: 'Reserve', icon: <CalendarIcon size={16} /> },
+                        { id: 'booking', label: 'Book Room', icon: <Bed size={16} /> },
+                        { id: 'contact', label: 'Contact', icon: <Phone size={16} /> }
+                    ].map(tab => (
+                        <button
+                            key={tab.id}
+                            onClick={() => setActiveTab(tab.id)}
+                            className={`flex-1 min-w-[90px] sm:min-w-[110px] py-3 px-3 sm:px-4 rounded-lg font-medium text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 flex items-center justify-center gap-2 ${
+                                activeTab === tab.id ? 'bg-[#C3965A] text-black' : 'text-white/70 hover:text-white hover:bg-white/5'
+                            }`}
+                        >
+                            {tab.icon}
+                            {tab.label}
+                        </button>
+                    ))}
                 </div>
             </div>
 
-            <main className="container" style={{ padding: '3rem 2rem', flex: 1 }}>
+            <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 pt-10 pb-20 flex-1">
 
                 <div className="tab-content animate-fade-in">
 
@@ -484,7 +529,7 @@ const HotelPage = () => {
                     )}
 
                 </div>
-            </main >
+            </div>
 
             {/* Reservation Modal Overlay */}
             {
@@ -555,12 +600,15 @@ const HotelPage = () => {
                 )
             }
 
-            <footer style={{ background: 'var(--bg-card)', padding: '2rem 0', marginTop: 'auto', borderTop: '1px solid var(--glass-border)' }}>
-                <div className="container" style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
-                    <p>&copy; {new Date().getFullYear()} {hotel.name}. Powered by LF Collection.</p>
+            <footer className="py-6 sm:py-8 mt-auto" style={{ background: '#080706' }}>
+                <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                    <Link to="/" className="font-serif text-lg text-[#C3965A] hover:opacity-90 transition">
+                        LF Collection
+                    </Link>
+                    <p className="text-white/50 text-sm">© {new Date().getFullYear()} LF Collection.</p>
                 </div>
             </footer>
-        </div >
+        </main>
     );
 };
 
