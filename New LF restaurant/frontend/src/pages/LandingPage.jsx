@@ -64,7 +64,6 @@ const heroHotels = [
 export default function LandingPage() {
   const [hotels, setHotels] = useState(heroHotels);
   const cardsRef = useRef(null);
-  const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll({
     target: cardsRef,
     offset: ["start end", "end start"],
@@ -93,35 +92,38 @@ export default function LandingPage() {
     fetchHotels();
   }, []);
 
-  const heroContentY = useTransform(scrollY, [0, 420], [0, -100]);
-  const heroContentOpacity = useTransform(scrollY, [0, 280], [1, 0]);
-
-  const card1Y = useTransform(scrollYProgress, [0, 0.22], [48, 0]);
-  const card1Opacity = useTransform(scrollYProgress, [0, 0.18], [0, 1]);
-  const card2Y = useTransform(scrollYProgress, [0.16, 0.38], [48, 0]);
-  const card2Opacity = useTransform(scrollYProgress, [0.16, 0.34], [0, 1]);
-  const card3Y = useTransform(scrollYProgress, [0.32, 0.54], [48, 0]);
-  const card3Opacity = useTransform(scrollYProgress, [0.32, 0.5], [0, 1]);
-  const card4Y = useTransform(scrollYProgress, [0.48, 0.7], [48, 0]);
-  const card4Opacity = useTransform(scrollYProgress, [0.48, 0.66], [0, 1]);
-  const card5Y = useTransform(scrollYProgress, [0.64, 0.86], [48, 0]);
-  const card5Opacity = useTransform(scrollYProgress, [0.64, 0.82], [0, 1]);
+  // Emerge + flow: each card moves up, fades in, and scales up as you scroll
+  const card1Y = useTransform(scrollYProgress, [0, 0.2], [72, 0]);
+  const card1Opacity = useTransform(scrollYProgress, [0, 0.16], [0, 1]);
+  const card1Scale = useTransform(scrollYProgress, [0, 0.18], [0.92, 1]);
+  const card2Y = useTransform(scrollYProgress, [0.14, 0.34], [72, 0]);
+  const card2Opacity = useTransform(scrollYProgress, [0.14, 0.3], [0, 1]);
+  const card2Scale = useTransform(scrollYProgress, [0.14, 0.32], [0.92, 1]);
+  const card3Y = useTransform(scrollYProgress, [0.28, 0.48], [72, 0]);
+  const card3Opacity = useTransform(scrollYProgress, [0.28, 0.44], [0, 1]);
+  const card3Scale = useTransform(scrollYProgress, [0.28, 0.46], [0.92, 1]);
+  const card4Y = useTransform(scrollYProgress, [0.42, 0.62], [72, 0]);
+  const card4Opacity = useTransform(scrollYProgress, [0.42, 0.58], [0, 1]);
+  const card4Scale = useTransform(scrollYProgress, [0.42, 0.6], [0.92, 1]);
+  const card5Y = useTransform(scrollYProgress, [0.56, 0.76], [72, 0]);
+  const card5Opacity = useTransform(scrollYProgress, [0.56, 0.72], [0, 1]);
+  const card5Scale = useTransform(scrollYProgress, [0.56, 0.74], [0.92, 1]);
 
   const cardTransforms = [
-    { y: card1Y, opacity: card1Opacity },
-    { y: card2Y, opacity: card2Opacity },
-    { y: card3Y, opacity: card3Opacity },
-    { y: card4Y, opacity: card4Opacity },
-    { y: card5Y, opacity: card5Opacity },
+    { y: card1Y, opacity: card1Opacity, scale: card1Scale },
+    { y: card2Y, opacity: card2Opacity, scale: card2Scale },
+    { y: card3Y, opacity: card3Opacity, scale: card3Scale },
+    { y: card4Y, opacity: card4Opacity, scale: card4Scale },
+    { y: card5Y, opacity: card5Opacity, scale: card5Scale },
   ];
 
   return (
     <main className="min-h-screen bg-[#080706] text-white overflow-x-hidden">
       <Navbar />
 
-      {/* ——— 1. Hero: headline + 5 hotel cards on same section ——— */}
-      <section className="relative flex flex-col overflow-hidden">
-        <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center">
+      {/* ——— 1. Hero: extends behind nav so transparent nav shows hero, not main background ——— */}
+      <section className="relative flex flex-col overflow-hidden -mt-20">
+        <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center pt-20">
           <img
             src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2000&auto=format&fit=crop"
             alt=""
@@ -131,19 +133,17 @@ export default function LandingPage() {
             className="absolute inset-0"
             style={{
               background:
-                "linear-gradient(180deg, rgba(0,0,0,0.48) 0%, rgba(0,0,0,0.62) 35%, rgba(0,0,0,0.82) 65%, rgba(0,0,0,0.95) 85%, #000000 100%)",
+                "linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.94) 85%, #000000 100%)",
             }}
           />
-          <motion.div
-            style={{ y: heroContentY, opacity: heroContentOpacity }}
-            className="relative z-10 flex flex-col items-center text-center px-4 pt-20 pb-12 sm:pt-24 sm:pb-16 safe-area-inset"
-          >
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 safe-area-inset min-h-[70vh]">
             <motion.p
               variants={heroReveal}
               initial="hidden"
               animate="show"
               transition={{ duration: 0.6 }}
-              className="text-[11px] sm:text-xs uppercase tracking-[0.28em] text-[#C3965A] font-sans"
+              className="text-xs sm:text-sm uppercase tracking-[0.32em] font-medium mb-6 sm:mb-8"
+              style={{ color: "#C3965A" }}
             >
               A CURATED WORLD
             </motion.p>
@@ -151,39 +151,15 @@ export default function LandingPage() {
               variants={heroReveal}
               initial="hidden"
               animate="show"
-              transition={{ duration: 0.6, delay: 0.08 }}
-              className="mt-5 sm:mt-6 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl tracking-tight leading-[1.05] text-white max-w-4xl px-1"
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.12]"
+              style={{ fontFamily: "var(--font-heading, 'Playfair Display', serif)" }}
             >
               Elegance
               <br />
               In Stillness
             </motion.h1>
-            <motion.div
-              variants={heroReveal}
-              initial="hidden"
-              animate="show"
-              transition={{ duration: 0.6, delay: 0.16 }}
-              className="mt-8 sm:mt-10"
-            >
-              <Link
-                to="/#collection"
-                className="inline-flex min-h-[48px] sm:min-h-[52px] items-center justify-center rounded-md px-6 sm:px-8 py-3 bg-[#C3965A] text-black font-semibold text-[11px] sm:text-xs uppercase tracking-[0.2em] border border-[#C3965A] hover:brightness-110 active:scale-[0.98] transition touch-manipulation"
-              >
-                EXPLORE DESTINATIONS
-              </Link>
-            </motion.div>
-            <motion.a
-              href="#philosophy"
-              variants={heroReveal}
-              initial="hidden"
-              animate="show"
-              transition={{ duration: 0.6, delay: 0.24 }}
-              className="mt-12 sm:mt-14 flex flex-col items-center gap-2 text-white/70 hover:text-white/90 transition-colors touch-manipulation"
-            >
-              <span className="text-[10px] uppercase tracking-[0.3em]">Scroll</span>
-              <span className="h-6 sm:h-8 w-px bg-white/50" aria-hidden />
-            </motion.a>
-          </motion.div>
+          </div>
         </div>
 
         {/* Five hotel cards — vertical stack, scroll-driven flow (id for /#collection) */}
@@ -193,7 +169,15 @@ export default function LandingPage() {
               const imageLeft = i % 2 === 0;
               const transform = cardTransforms[i] ?? cardTransforms[0];
               return (
-                <motion.div key={hotel.id} style={{ y: transform.y, opacity: transform.opacity }}>
+                <motion.div
+                  key={hotel.id}
+                  style={{
+                    y: transform.y,
+                    opacity: transform.opacity,
+                    scale: transform.scale,
+                    transformOrigin: "center center",
+                  }}
+                >
                   <motion.article
                     className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 shadow-lg"
                   >
