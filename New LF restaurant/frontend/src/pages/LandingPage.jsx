@@ -64,10 +64,14 @@ const heroHotels = [
 export default function LandingPage() {
   const [hotels, setHotels] = useState(heroHotels);
   const cardsRef = useRef(null);
+  const { scrollY } = useScroll();
   const { scrollYProgress } = useScroll({
     target: cardsRef,
     offset: ["start end", "end start"],
   });
+
+  const heroContentY = useTransform(scrollY, [0, 380], [0, -90]);
+  const heroContentOpacity = useTransform(scrollY, [0, 260], [1, 0]);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -136,7 +140,10 @@ export default function LandingPage() {
                 "linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.72) 30%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.94) 85%, #000000 100%)",
             }}
           />
-          <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 safe-area-inset min-h-[70vh]">
+          <motion.div
+            style={{ y: heroContentY, opacity: heroContentOpacity }}
+            className="relative z-10 flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 sm:pt-28 sm:pb-20 safe-area-inset min-h-[70vh]"
+          >
             <motion.p
               variants={heroReveal}
               initial="hidden"
@@ -159,7 +166,7 @@ export default function LandingPage() {
               <br />
               In Stillness
             </motion.h1>
-          </div>
+          </motion.div>
         </div>
 
         {/* Five hotel cards — vertical stack, scroll-driven flow (id for /#collection) */}
