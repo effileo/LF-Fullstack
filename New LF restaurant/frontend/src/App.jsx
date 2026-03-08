@@ -27,11 +27,26 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   return children;
 };
 
+// Hotel admins go straight to their dashboard — they don't use the public landing
+const HomeRoute = () => {
+  const user = (() => {
+    try {
+      return JSON.parse(sessionStorage.getItem('user') || 'null');
+    } catch {
+      return null;
+    }
+  })();
+  if (user && user.role === 'HOTEL_ADMIN') {
+    return <Navigate to="/admin/hotel" replace />;
+  }
+  return <LandingPage />;
+};
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        <Route path="/" element={<HomeRoute />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

@@ -8,6 +8,8 @@ import { Star, MapPin, CheckCircle, X, Utensils, Calendar as CalendarIcon, Bell,
 import '../index.css';
 
 const heroReveal = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
+const scrollReveal = { hidden: { opacity: 0, y: 28 }, show: { opacity: 1, y: 0 } };
+const sectionTransition = { duration: 0.6, ease: [0.22, 1, 0.36, 1] };
 
 const HotelPage = () => {
     const { id } = useParams();
@@ -271,59 +273,103 @@ const HotelPage = () => {
                     {/* TAB: LANDING / OVERVIEW */}
                     {activeTab === 'landing' && (
                         <div>
-                            {/* Description Section - Centered & Elegant */}
-                            <section style={{ padding: '3rem 0', textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
-                                <h2 style={{ fontSize: '2.5rem', marginBottom: '2rem', fontFamily: 'var(--font-heading)' }}>
-                                    {hotel.name}
-                                    {hotel.isClosed && (
-                                        <span style={{
-                                            display: 'inline-block',
-                                            marginLeft: '1rem',
-                                            padding: '0.5rem 1rem',
-                                            background: 'red',
-                                            color: 'white',
-                                            fontSize: '1rem',
-                                            borderRadius: '5px',
-                                            verticalAlign: 'middle',
-                                            fontFamily: 'var(--font-body)'
-                                        }}>
-                                            TEMPORARILY CLOSED
-                                        </span>
-                                    )}
-                                </h2>
-                                <p style={{ fontSize: '1.2rem', lineHeight: '1.8', color: 'var(--text-muted)' }}>
-                                    {hotel.description}
-                                </p>
-                                <p style={{ fontSize: '1.1rem', lineHeight: '1.8', color: 'var(--text-muted)', marginTop: '1rem' }}>
-                                    Experience the epitome of Ethiopian hospitality. Whether you are here for business or leisure,
-                                    {hotel.name} offers meticulous service and world-class amenities to make your stay unforgettable.
-                                </p>
+                            {/* Description — scroll-in, editorial feel */}
+                            <section className="scroll-mt-20 py-16 sm:py-20">
+                                <motion.div
+                                    initial="hidden"
+                                    whileInView="show"
+                                    viewport={{ once: true, amount: 0.25 }}
+                                    variants={scrollReveal}
+                                    transition={sectionTransition}
+                                    className="mx-auto max-w-2xl text-center px-4"
+                                >
+                                    <p className="text-xs uppercase tracking-[0.28em] font-medium mb-6" style={{ color: '#C3965A' }}>
+                                        About
+                                    </p>
+                                    <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-8" style={{ fontFamily: 'var(--font-heading)' }}>
+                                        {hotel.name}
+                                        {hotel.isClosed && (
+                                            <span className="inline-block ml-3 px-3 py-1 bg-red-600/90 text-white text-sm rounded font-sans align-middle">
+                                                TEMPORARILY CLOSED
+                                            </span>
+                                        )}
+                                    </h2>
+                                    <div className="h-px w-16 mx-auto mb-10 bg-[#C3965A]/60" />
+                                    <p className="text-lg sm:text-xl leading-relaxed text-white/85">
+                                        {hotel.description}
+                                    </p>
+                                    <p className="mt-6 text-base sm:text-lg leading-relaxed text-white/65">
+                                        Experience the epitome of Ethiopian hospitality. Whether you are here for business or leisure,
+                                        {hotel.name} offers meticulous service and world-class amenities to make your stay unforgettable.
+                                    </p>
+                                </motion.div>
                             </section>
 
-                            {/* Announcements as Cards - Centered Grid */}
+                            {/* Latest Announcements — stagger cards, hover, gold accent */}
                             {hotel.announcements && hotel.announcements.length > 0 && (
-                                <section style={{ padding: '3rem 0' }}>
-                                    <h3 style={{ textAlign: 'center', marginBottom: '2rem', fontSize: '2rem' }}>Latest Announcements</h3>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem' }}>
-                                        {hotel.announcements.map(announcement => (
-                                            <div key={announcement.id} className="card" style={{ flex: '0 1 350px', padding: '2rem', textAlign: 'center' }}>
-                                                <div style={{ color: 'var(--primary)', marginBottom: '1rem' }}><Bell size={32} /></div>
-                                                <h4 style={{ marginBottom: '1rem', fontSize: '1.25rem' }}>{announcement.title}</h4>
-                                                <p style={{ color: 'var(--text-muted)' }}>{announcement.content}</p>
-                                                <small style={{ display: 'block', marginTop: '1.5rem', color: 'var(--text-dim)', fontStyle: 'italic' }}>
-                                                    {new Date(announcement.createdAt).toLocaleDateString()}
-                                                </small>
-                                            </div>
-                                        ))}
-                                    </div>
+                                <section className="scroll-mt-20 py-14 sm:py-20">
+                                    <motion.div
+                                        initial="hidden"
+                                        whileInView="show"
+                                        viewport={{ once: true, amount: 0.2 }}
+                                        variants={{ hidden: {}, show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } } }}
+                                        className="mx-auto max-w-6xl px-4"
+                                    >
+                                        <div className="flex items-center justify-center gap-4 mb-12">
+                                            <span className="h-px flex-1 max-w-[80px] sm:max-w-[120px] bg-white/20" />
+                                            <h3 className="font-serif text-xl sm:text-2xl tracking-tight text-white uppercase">
+                                                Latest Announcements
+                                            </h3>
+                                            <span className="h-px flex-1 max-w-[80px] sm:max-w-[120px] bg-white/20" />
+                                        </div>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                                            {hotel.announcements.map((announcement) => (
+                                                <motion.article
+                                                    key={announcement.id}
+                                                    variants={scrollReveal}
+                                                    transition={sectionTransition}
+                                                    whileHover={{ y: -6 }}
+                                                    className="group relative rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-8 text-center backdrop-blur-sm transition-all duration-300 hover:border-[#C3965A]/40 hover:bg-white/[0.06] hover:shadow-lg hover:shadow-[#C3965A]/5"
+                                                >
+                                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-px bg-gradient-to-r from-transparent via-[#C3965A] to-transparent opacity-80 group-hover:opacity-100 transition-opacity" />
+                                                    <div className="flex justify-center mb-5">
+                                                        <span className="flex items-center justify-center w-12 h-12 rounded-full border border-[#C3965A]/40 bg-[#C3965A]/10 text-[#C3965A] group-hover:bg-[#C3965A]/20 transition-colors">
+                                                            <Bell size={22} strokeWidth={1.5} />
+                                                        </span>
+                                                    </div>
+                                                    <h4 className="font-semibold text-lg sm:text-xl text-white mb-3 tracking-tight">
+                                                        {announcement.title}
+                                                    </h4>
+                                                    <p className="text-sm sm:text-base text-white/70 leading-relaxed">
+                                                        {announcement.content}
+                                                    </p>
+                                                    <p className="mt-5 text-xs text-white/45">
+                                                        {new Date(announcement.createdAt).toLocaleDateString()}
+                                                    </p>
+                                                </motion.article>
+                                            ))}
+                                        </div>
+                                    </motion.div>
                                 </section>
                             )}
 
-                            {/* Services Section - Matching LandingPage Style */}
-                            <section style={{ padding: '3rem 0', background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius)' }}>
-                                <div className="container">
-                                    <h3 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem' }}>Premium Amenities</h3>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '2rem' }}>
+                            {/* Premium Amenities — scroll-in, refined cards */}
+                            <section className="scroll-mt-20 py-14 sm:py-20 rounded-2xl bg-white/[0.03] border border-white/5">
+                                <motion.div
+                                    initial="hidden"
+                                    whileInView="show"
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
+                                    className="mx-auto max-w-6xl px-4"
+                                >
+                                    <div className="flex items-center justify-center gap-4 mb-12">
+                                        <span className="h-px flex-1 max-w-[80px] sm:max-w-[120px] bg-white/20" />
+                                        <h3 className="font-serif text-xl sm:text-2xl tracking-tight text-white uppercase">
+                                            Premium Amenities
+                                        </h3>
+                                        <span className="h-px flex-1 max-w-[80px] sm:max-w-[120px] bg-white/20" />
+                                    </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5 sm:gap-6">
                                         {[
                                             { title: 'Luxury Accommodation', icon: '🛏️', desc: 'Suites designed for ultimate comfort.' },
                                             { title: 'Fine Dining', icon: '🍽️', desc: 'International and local culinary delights.' },
@@ -331,14 +377,20 @@ const HotelPage = () => {
                                             { title: 'Concierge Service', icon: '🛎️', desc: '24/7 dedicated service for all your needs.' },
                                             { title: 'High-Speed Wi-Fi', icon: '📶', desc: 'Stay connected seamlessly throughout.' }
                                         ].map((service, index) => (
-                                            <div key={index} className="card" style={{ flex: '0 1 300px', padding: '2rem', textAlign: 'center', transition: 'transform 0.3s ease' }}>
-                                                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{service.icon}</div>
-                                                <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>{service.title}</h4>
-                                                <p style={{ color: 'var(--text-muted)', lineHeight: '1.6' }}>{service.desc}</p>
-                                            </div>
+                                            <motion.div
+                                                key={index}
+                                                variants={scrollReveal}
+                                                transition={sectionTransition}
+                                                whileHover={{ y: -4 }}
+                                                className="group rounded-xl border border-white/10 bg-white/[0.04] p-6 text-center backdrop-blur-sm transition-all duration-300 hover:border-[#C3965A]/30 hover:bg-white/[0.06]"
+                                            >
+                                                <div className="text-3xl mb-4">{service.icon}</div>
+                                                <h4 className="font-semibold text-white mb-2 text-[#C3965A] group-hover:text-[#C3965A]">{service.title}</h4>
+                                                <p className="text-sm text-white/65 leading-relaxed">{service.desc}</p>
+                                            </motion.div>
                                         ))}
                                     </div>
-                                </div>
+                                </motion.div>
                             </section>
 
                             {/* Specials Highlight */}
