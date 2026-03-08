@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api/axios';
+import api from '../api/client';
 import Navbar from '../components/Navbar';
 import HotelCard from '../components/HotelCard';
 import '../index.css';

@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import api from '../api/client';
 import Navbar from '../components/Navbar';
 import { Bed, Utensils, Calendar, CheckCircle } from 'lucide-react';
 import '../index.css';

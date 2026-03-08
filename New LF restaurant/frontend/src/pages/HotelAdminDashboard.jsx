@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api/axios';
+import api from '../api/client';
 import { Plus, Trash2, Calendar, Star, Utensils, Bed, List, Settings } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import CalendarComponent from '../components/CalendarComponent'; // Can reuse for reservation view?
 
 import { useLocation } from 'react-router-dom';
 

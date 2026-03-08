@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../api/axios';
+import api from '../api/client';
 import Navbar from '../components/Navbar';
 import CalendarComponent from '../components/CalendarComponent';
 import { Star, MapPin, CheckCircle, X, Coffee, Bed, Utensils, Calendar as CalendarIcon, Activity, Info, Bell, Phone } from 'lucide-react';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import api from '../api/axios';
+import api from '../api/client';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { Lock, Eye, EyeOff } from 'lucide-react';

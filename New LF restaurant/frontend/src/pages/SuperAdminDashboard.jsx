@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import api from '../api/axios';
+import api from '../api/client';
 import { Trash2, Plus, Ban, CheckCircle } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
