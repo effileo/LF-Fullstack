@@ -129,9 +129,12 @@ const HotelPage = () => {
     const heroImage = hotel?.image || defaultImg;
 
     if (!hotel) return (
-        <main className="min-h-screen bg-[#080706] text-white flex items-center justify-center">
+        <main className="min-h-screen bg-[#080706] text-white flex flex-col">
             <Navbar />
-            <p className="text-white/70">Loading experience…</p>
+            <div className="flex-1 flex flex-col items-center justify-center gap-6 px-4">
+                <div className="h-10 w-10 rounded-full border-2 border-[#C3965A]/30 border-t-[#C3965A] animate-spin" aria-hidden />
+                <p className="text-white/70 text-sm uppercase tracking-wider">Loading experience…</p>
+            </div>
         </main>
     );
 

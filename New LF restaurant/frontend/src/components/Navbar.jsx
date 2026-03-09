@@ -64,17 +64,11 @@ export default function Navbar() {
           LF Collection
         </Link>
 
-        {(isHome || isHotelPage) && (
+        {isHotelPage && (
           <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-8 text-sm uppercase tracking-[0.2em] text-white/80">
-            {isHome ? (
-              <Link to="/#collection" className="hover:text-[#C3965A] transition-colors duration-200">
-                DESTINATIONS
-              </Link>
-            ) : (
-              <Link to="/" className="hover:text-[#C3965A] transition-colors duration-200">
-                HOME
-              </Link>
-            )}
+            <Link to="/" className="hover:text-[#C3965A] transition-colors duration-200">
+              HOME
+            </Link>
           </div>
         )}
 

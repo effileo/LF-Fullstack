@@ -1,0 +1,4 @@
+
+[2026-03-09T12:17:09.424Z] REQUEST BODY: {"name":"Fita Alemayehu","email":"fitaalemayehu12@gmail.com","password":"Aorta123!","phone":"+251933610562","address":"Batu,Addis Ababa to Hawassa highway","gender":"","age":"18","job":"","image":""}
+[2026-03-09T12:20:18.441Z] REQUEST BODY: {"name":"Fita Alemayehu","email":"fitaalemayehu12@gmail.com","password":"Aorta123!","phone":"+251933610562","address":"Batu,Addis Ababa to Hawassa highway","gender":"","age":"18","job":"","image":""}
+[2026-03-09T12:20:19.180Z] CREATED USER: {"id":"d5059cd3-c59f-45c8-a993-47aeaa8fd9cb","email":"fitaalemayehu12@gmail.com","password":"$2a$10$mtKPeadrRyZ/ZeD2lG/ww.mFk4QgzlUOoln92uE/F9YYpdlobxsBe","resetPasswordToken":null,"resetPasswordExpires":null,"role":"USER","createdAt":"2026-03-09T12:20:19.009Z","updatedAt":"2026-03-09T12:20:19.009Z","address":"Batu,Addis Ababa to Hawassa highway","age":18,"gender":"","image":"","job":"","name":"Fita Alemayehu","phone":"+251933610562"}

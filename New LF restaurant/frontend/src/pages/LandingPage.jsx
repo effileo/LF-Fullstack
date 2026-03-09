@@ -286,7 +286,7 @@ export default function LandingPage() {
             Begin Your Journey
           </h3>
           <p className="mt-3 sm:mt-4 text-white/70 text-[15px] sm:text-base">
-            Explore our full collection of destinations.
+            Explore our collection of hotels.
           </p>
         </motion.div>
       </section>
