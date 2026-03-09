@@ -111,10 +111,11 @@ const server = http.createServer(async (req, res) => {
             req.body = {}; // Allow empty body or failed parse?
         }
 
-        // 5. URL Parsing
+        // 5. URL Parsing (support both /api/auth/* and /auth/* for proxy/frontend flexibility)
         const parsedUrl = url.parse(req.url, true);
         req.query = parsedUrl.query;
         const pathname = parsedUrl.pathname;
+        const path = pathname.replace(/^\/api/, '') || '/'; // /api/auth/login -> /auth/login
         const method = req.method;
 
         console.log(`${method} ${pathname}`);
@@ -124,30 +125,30 @@ const server = http.createServer(async (req, res) => {
             // MANUAL ROUTING LOGIC
             // =================================================================
 
-            // --- AUTH ROUTES ---
-            if (pathname === '/api/auth/login' && method === 'POST') {
+            // --- AUTH ROUTES (match both /api/auth/login and /auth/login) ---
+            if ((pathname === '/api/auth/login' || path === '/auth/login') && method === 'POST') {
                 return authController.login(req, res);
             }
-            if (pathname === '/api/auth/signup' && method === 'POST') {
+            if ((pathname === '/api/auth/signup' || path === '/auth/signup') && method === 'POST') {
                 return authController.signup(req, res);
             }
-            if (pathname === '/api/auth/profile' && method === 'PUT') {
+            if ((pathname === '/api/auth/profile' || path === '/auth/profile') && method === 'PUT') {
                 if (await runMiddleware(req, res, protect)) {
                     return authController.updateProfile(req, res);
                 }
                 return;
             }
-            if (pathname === '/api/auth/me' && method === 'GET') {
+            if ((pathname === '/api/auth/me' || path === '/auth/me') && method === 'GET') {
                 if (await runMiddleware(req, res, protect)) {
                     return authController.getMe(req, res);
                 }
                 return;
             }
-            if (pathname === '/api/auth/forgot-password' && method === 'POST') {
+            if ((pathname === '/api/auth/forgot-password' || path === '/auth/forgot-password') && method === 'POST') {
                 return authController.forgotPassword(req, res);
             }
-            // /api/auth/reset-password/:token
-            const resetPwdMatch = pathname.match(/^\/api\/auth\/reset-password\/([\w-]+)$/);
+            // /api/auth/reset-password/:token or /auth/reset-password/:token
+            const resetPwdMatch = pathname.match(/^\/api\/auth\/reset-password\/([\w-]+)$/) || path.match(/^\/auth\/reset-password\/([\w-]+)$/);
             if (resetPwdMatch && method === 'POST') {
                 req.params = { token: resetPwdMatch[1] };
                 return authController.resetPassword(req, res);

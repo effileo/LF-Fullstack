@@ -1,5 +1,8 @@
 // Use Render backend URL in production (set VITE_API_URL on Vercel)
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Ensure base ends with /api and has no trailing slash so requests hit /api/auth/login etc.
+let BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+BASE_URL = BASE_URL.replace(/\/$/, '');
+if (!BASE_URL.endsWith('/api')) BASE_URL += '/api';
 
 const request = async (endpoint, method, body = null) => {
     const token = sessionStorage.getItem('token');
@@ -35,7 +38,8 @@ const request = async (endpoint, method, body = null) => {
         // Mimic axios error structure so components don't break
         const error = new Error(data?.message || 'Something went wrong');
         error.response = {
-            data: data
+            data,
+            status: response.status,
         };
         throw error;
     }
