@@ -7,6 +7,12 @@ if (process.env.DATABASE_URL && !/^postgres(ql)?:\/\//i.test(process.env.DATABAS
         .trim();
 }
 
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET.trim() === '') {
+    console.error('FATAL: JWT_SECRET environment variable is not set. Set it in Render → your Web Service → Environment.');
+    process.exit(1);
+}
+console.log('JWT_SECRET is set (server can sign tokens)');
+
 import http from 'http';
 import url from 'url';
 

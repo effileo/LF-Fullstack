@@ -8,7 +8,11 @@ export const protect = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             token = req.headers.authorization.split(' ')[1];
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const secret = process.env.JWT_SECRET;
+            if (!secret || String(secret).trim() === '') {
+                throw new Error('JWT_SECRET_NOT_CONFIGURED');
+            }
+            const decoded = jwt.verify(token, secret);
 
             const user = await prisma.user.findUnique({
                 where: { id: decoded.id },

@@ -32,7 +32,17 @@ const SignupPage = () => {
             sessionStorage.setItem('token', response.data.token);
             navigate('/');
         } catch (err) {
-            setError(err.response?.data?.message || 'Signup failed. Please try again.');
+            const msg = err.response?.data?.message;
+            const status = err.response?.status;
+            if (msg) {
+                setError(msg);
+            } else if (status === 400) {
+                setError('Invalid input or user already exists.');
+            } else if (status >= 500) {
+                setError('Server error. Please try again later.');
+            } else {
+                setError('Signup failed. Please try again.');
+            }
         } finally {
             setLoading(false);
         }

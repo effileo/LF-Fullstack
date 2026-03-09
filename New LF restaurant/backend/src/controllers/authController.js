@@ -5,17 +5,21 @@ import { z } from 'zod';
 
 const prisma = new PrismaClient();
 
+const getJwtSecret = () => {
+    const secret = process.env.JWT_SECRET;
+    if (!secret || String(secret).trim() === '') {
+        throw new Error('JWT_SECRET_NOT_CONFIGURED');
+    }
+    return secret;
+};
+
 const generateToken = (id, role, hotelId) => {
-    return jwt.sign({ id, role, hotelId }, process.env.JWT_SECRET, {
+    return jwt.sign({ id, role, hotelId }, getJwtSecret(), {
         expiresIn: '30d',
     });
 };
 
-import fs from 'fs';
-
 export const signup = async (req, res) => {
-    const logData = `\n[${new Date().toISOString()}] REQUEST BODY: ${JSON.stringify(req.body)}`;
-    fs.appendFileSync('debug_log.txt', logData);
     console.log('SIGNUP REQUEST BODY:', req.body);
     const { name, email, password, phone, address, gender, age, job, image } = req.body;
 
@@ -42,10 +46,9 @@ export const signup = async (req, res) => {
                 gender,
                 age: age ? parseInt(age) : null,
                 job,
-                image
+                image: image || null
             },
         });
-        fs.appendFileSync('debug_log.txt', `\n[${new Date().toISOString()}] CREATED USER: ${JSON.stringify(user)}`);
 
         if (user) {
             res.status(201).json({
@@ -65,7 +68,13 @@ export const signup = async (req, res) => {
             res.status(400).json({ message: 'Invalid user data' });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const isJwtConfig = error.message === 'JWT_SECRET_NOT_CONFIGURED' || /secretOrPrivateKey/i.test(error.message);
+        console.error('Signup error:', error.message);
+        res.status(500).json({
+            message: isJwtConfig
+                ? 'Server configuration error. Please try again later.'
+                : (error.message || 'Signup failed'),
+        });
     }
 };
 
@@ -97,7 +106,13 @@ export const login = async (req, res) => {
             res.status(401).json({ message: 'Invalid email or password' });
         }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        const isJwtConfig = error.message === 'JWT_SECRET_NOT_CONFIGURED' || /secretOrPrivateKey/i.test(error.message);
+        console.error('Login error:', error.message);
+        res.status(500).json({
+            message: isJwtConfig
+                ? 'Server configuration error. Please try again later.'
+                : (error.message || 'Login failed'),
+        });
     }
 };
 

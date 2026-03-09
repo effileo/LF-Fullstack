@@ -30,7 +30,17 @@ const LoginPage = () => {
                 navigate('/');
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+            const msg = err.response?.data?.message;
+            const status = err.response?.status;
+            if (msg) {
+                setError(msg);
+            } else if (status === 401) {
+                setError('Invalid email or password.');
+            } else if (status >= 500) {
+                setError('Server error. Please try again later.');
+            } else {
+                setError('Login failed. Please check your credentials.');
+            }
         } finally {
             setLoading(false);
         }
