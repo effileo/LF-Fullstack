@@ -40,6 +40,8 @@ const SignupPage = () => {
                 setError('Invalid input or user already exists.');
             } else if (status >= 500) {
                 setError('Server error. Please try again later.');
+            } else if (!err.response) {
+                setError('Network error. Check your connection and that the app is deployed.');
             } else {
                 setError('Signup failed. Please try again.');
             }

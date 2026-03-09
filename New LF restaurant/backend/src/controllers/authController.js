@@ -20,61 +20,73 @@ const generateToken = (id, role, hotelId) => {
 };
 
 export const signup = async (req, res) => {
-    console.log('SIGNUP REQUEST BODY:', req.body);
-    const { name, email, password, phone, address, gender, age, job, image } = req.body;
+    const { name, email, password, phone, address, gender, age, job, image } = req.body || {};
+
+    // Validate required fields
+    const trimmedEmail = typeof email === 'string' ? email.trim() : '';
+    const trimmedPassword = typeof password === 'string' ? password : '';
+    if (!trimmedEmail) {
+        return res.status(400).json({ message: 'Email is required.' });
+    }
+    if (!trimmedPassword || trimmedPassword.length < 6) {
+        return res.status(400).json({ message: 'Password must be at least 6 characters.' });
+    }
 
     try {
         const userExists = await prisma.user.findUnique({
-            where: { email },
+            where: { email: trimmedEmail },
         });
 
         if (userExists) {
-            return res.status(400).json({ message: 'User already exists' });
+            return res.status(400).json({ message: 'User already exists with this email.' });
         }
 
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
+        const hashedPassword = await bcrypt.hash(trimmedPassword, salt);
 
         const user = await prisma.user.create({
             data: {
-                name,
-                email,
+                name: name && String(name).trim() ? String(name).trim() : null,
+                email: trimmedEmail,
                 password: hashedPassword,
-                role: 'USER', // Default role
-                phone,
-                address,
-                gender,
-                age: age ? parseInt(age) : null,
-                job,
-                image: image || null
+                role: 'USER',
+                phone: phone && String(phone).trim() ? String(phone).trim() : null,
+                address: address && String(address).trim() ? String(address).trim() : null,
+                gender: gender && String(gender).trim() ? String(gender).trim() : null,
+                age: age != null && age !== '' ? parseInt(age, 10) : null,
+                job: job && String(job).trim() ? String(job).trim() : null,
+                image: image && String(image).trim() ? String(image).trim() : null,
             },
         });
 
-        if (user) {
-            res.status(201).json({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                phone: user.phone,
-                address: user.address,
-                gender: user.gender,
-                age: user.age,
-                job: user.job,
-                image: user.image,
-                token: generateToken(user.id, user.role, null),
-            });
-        } else {
-            res.status(400).json({ message: 'Invalid user data' });
-        }
+        res.status(201).json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+            phone: user.phone,
+            address: user.address,
+            gender: user.gender,
+            age: user.age,
+            job: user.job,
+            image: user.image,
+            token: generateToken(user.id, user.role, null),
+        });
     } catch (error) {
         const isJwtConfig = error.message === 'JWT_SECRET_NOT_CONFIGURED' || /secretOrPrivateKey/i.test(error.message);
-        console.error('Signup error:', error.message);
-        res.status(500).json({
-            message: isJwtConfig
-                ? 'Server configuration error. Please try again later.'
-                : (error.message || 'Signup failed'),
-        });
+        console.error('Signup error:', error.code || error.message, error);
+
+        // Prisma errors: return user-friendly message
+        let message = 'Signup failed. Please try again.';
+        if (isJwtConfig) {
+            message = 'Server configuration error. Please try again later.';
+        } else if (error.code === 'P2002') {
+            message = 'User already exists with this email.';
+        } else if (error.message) {
+            message = error.message;
+        }
+
+        res.status(500).json({ message });
     }
 };
 
