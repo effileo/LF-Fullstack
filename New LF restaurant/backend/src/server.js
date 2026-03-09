@@ -14,11 +14,33 @@ import { protect, adminOnly, hotelAdminOnly } from './middleware/authMiddleware.
 
 const PORT = process.env.PORT || 5000;
 
-// Helper to handle CORS
-const setCorsHeaders = (res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
+// CORS: allow frontend domain(s). Set FRONTEND_URL (single) or CORS_ORIGINS (comma-separated).
+// Examples: FRONTEND_URL=https://myapp.vercel.app  or  CORS_ORIGINS=https://app.com,https://www.app.com
+const getAllowedOrigins = () => {
+    if (process.env.CORS_ORIGINS) {
+        return process.env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean);
+    }
+    if (process.env.FRONTEND_URL) {
+        return [process.env.FRONTEND_URL.trim()];
+    }
+    return [];
+};
+const ALLOWED_ORIGINS = getAllowedOrigins();
+
+const setCorsHeaders = (res, req) => {
+    const origin = req.headers.origin;
+    const allowOrigin =
+        ALLOWED_ORIGINS.length > 0 && origin && ALLOWED_ORIGINS.includes(origin)
+            ? origin
+            : ALLOWED_ORIGINS.length === 0
+                ? '*'
+                : null;
+    if (allowOrigin) {
+        res.setHeader('Access-Control-Allow-Origin', allowOrigin);
+    }
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Max-Age', '86400');
 };
 
 // Helper to run middleware
@@ -50,8 +72,8 @@ const runMiddleware = (req, res, middleware) => {
 };
 
 const server = http.createServer(async (req, res) => {
-    // 1. Set CORS
-    setCorsHeaders(res);
+    // 1. Set CORS (pass req so we can allow the request origin when configured)
+    setCorsHeaders(res, req);
 
     // 2. Handle Preflight
     if (req.method === 'OPTIONS') {
