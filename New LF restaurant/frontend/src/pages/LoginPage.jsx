@@ -38,6 +38,8 @@ const LoginPage = () => {
                 setError('Invalid email or password.');
             } else if (status >= 500) {
                 setError('Server error. Please try again later.');
+            } else if (!err.response) {
+                setError('Cannot reach server. Open your backend URL in a new tab to wake it up, then try again.');
             } else {
                 setError('Login failed. Please check your credentials.');
             }

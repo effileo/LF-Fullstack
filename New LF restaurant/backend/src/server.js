@@ -29,26 +29,27 @@ import { protect, adminOnly, hotelAdminOnly } from './middleware/authMiddleware.
 const PORT = process.env.PORT || 5000;
 
 // CORS: allow frontend domain(s). Set FRONTEND_URL (single) or CORS_ORIGINS (comma-separated).
-// Examples: FRONTEND_URL=https://myapp.vercel.app  or  CORS_ORIGINS=https://app.com,https://www.app.com
+const normalizeOrigin = (o) => (o && typeof o === 'string' ? o.trim().replace(/\/$/, '') : '');
 const getAllowedOrigins = () => {
     if (process.env.CORS_ORIGINS) {
-        return process.env.CORS_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean);
+        return process.env.CORS_ORIGINS.split(',').map(normalizeOrigin).filter(Boolean);
     }
     if (process.env.FRONTEND_URL) {
-        return [process.env.FRONTEND_URL.trim()];
+        const u = normalizeOrigin(process.env.FRONTEND_URL);
+        return u ? [u] : [];
     }
     return [];
 };
 const ALLOWED_ORIGINS = getAllowedOrigins();
 
 const setCorsHeaders = (res, req) => {
-    const origin = req.headers.origin;
-    const allowOrigin =
-        ALLOWED_ORIGINS.length > 0 && origin && ALLOWED_ORIGINS.includes(origin)
-            ? origin
-            : ALLOWED_ORIGINS.length === 0
-                ? '*'
-                : null;
+    const origin = normalizeOrigin(req.headers.origin);
+    let allowOrigin = null;
+    if (ALLOWED_ORIGINS.length === 0) {
+        allowOrigin = '*';
+    } else if (origin && ALLOWED_ORIGINS.some((allowed) => normalizeOrigin(allowed) === origin)) {
+        allowOrigin = req.headers.origin;
+    }
     if (allowOrigin) {
         res.setHeader('Access-Control-Allow-Origin', allowOrigin);
     }
