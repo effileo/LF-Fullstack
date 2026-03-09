@@ -129,7 +129,7 @@ export default function LandingPage() {
       <section className="relative flex flex-col overflow-hidden -mt-20">
         <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center pt-20">
           <img
-            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2000&auto=format&fit=crop"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
