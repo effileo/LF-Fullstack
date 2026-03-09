@@ -20,20 +20,14 @@ const UserActivityPage = () => {
             }
 
             try {
-                const response = await fetch('http://localhost:5000/api/reservations/my-reservations', {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
-                if (response.ok) {
-                    setReservations(await response.json());
-                } else {
-                    if (response.status === 401) {
-                        sessionStorage.removeItem('token');
-                        sessionStorage.removeItem('user');
-                        navigate('/login');
-                    }
-                }
+                const { data } = await api.get('/reservations/my-reservations');
+                setReservations(data || []);
             } catch (error) {
+                if (error.response?.data?.message === 'Not authorized' || error.response?.status === 401) {
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
+                    navigate('/login');
+                }
                 console.error('Failed to fetch activity:', error);
             }
         };

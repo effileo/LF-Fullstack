@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:5000/api';
+// Use Render backend URL in production (set VITE_API_URL on Vercel)
+const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const request = async (endpoint, method, body = null) => {
     const token = sessionStorage.getItem('token');

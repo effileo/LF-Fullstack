@@ -25,7 +25,7 @@ const heroHotels = [
     location: "Taitu St, Addis Ababa",
     rating: 4,
     description: "A Sanctuary of Grandeur. The Sheraton Addis, a Luxury Collection Hotel, Addis Ababa, sits opposite the National Palace in the heart of the city.",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=800&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop",
   },
   {
     id: 2,
@@ -129,7 +129,7 @@ export default function LandingPage() {
       <section className="relative flex flex-col overflow-hidden -mt-20">
         <div className="relative min-h-[100dvh] min-h-[90vh] flex flex-col items-center justify-center pt-20">
           <img
-            src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=2000&auto=format&fit=crop"
+            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=2000&auto=format&fit=crop"
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
@@ -150,7 +150,7 @@ export default function LandingPage() {
               animate="show"
               transition={{ duration: 0.6 }}
               className="text-xs sm:text-sm uppercase tracking-[0.32em] font-medium mb-6 sm:mb-8"
-              style={{ color: "#C3965A" }}
+              style={{ color: "#C3965A", fontFamily: "var(--font-body)" }}
             >
               A CURATED WORLD
             </motion.p>
@@ -159,8 +159,8 @@ export default function LandingPage() {
               initial="hidden"
               animate="show"
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.12]"
-              style={{ fontFamily: "var(--font-heading, 'Playfair Display', serif)" }}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl tracking-tight text-white leading-[1.12]"
+              style={{ fontFamily: "var(--font-heading)" }}
             >
               Elegance
               <br />
@@ -169,134 +169,204 @@ export default function LandingPage() {
           </motion.div>
         </div>
 
-        {/* Five hotel cards — vertical stack, scroll-driven flow (id for /#collection) */}
-        <div id="collection" ref={cardsRef} className="relative z-10 bg-[#080706] px-4 sm:px-6 lg:px-8 pb-16 sm:pb-20 md:pb-24 scroll-mt-20">
-          <div className="mx-auto max-w-7xl flex flex-col gap-8 sm:gap-10 md:gap-12">
-            {hotels.slice(0, 5).map((hotel, i) => {
-              const imageLeft = i % 2 === 0;
-              const transform = cardTransforms[i] ?? cardTransforms[0];
-              return (
-                <motion.div
-                  key={hotel.id}
-                  style={{
-                    y: transform.y,
-                    opacity: transform.opacity,
-                    scale: transform.scale,
-                    transformOrigin: "center center",
-                  }}
-                >
-                  <motion.article
-                    className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 shadow-lg"
+        {/* Collection: section label + five hotel cards (id for /#collection) */}
+        <div id="collection" ref={cardsRef} className="relative z-10 bg-[#080706] px-4 sm:px-6 lg:px-8 pt-14 sm:pt-16 pb-16 sm:pb-20 md:pb-24 scroll-mt-20">
+          <div className="mx-auto max-w-7xl">
+            <motion.p
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.2 }}
+              variants={scrollReveal}
+              transition={sectionTransition}
+              className="text-[10px] sm:text-xs uppercase tracking-[0.28em] flex items-center justify-center gap-4 mb-10 sm:mb-12 md:mb-14"
+              style={{ color: "#C3965A", fontFamily: "var(--font-body)" }}
+            >
+              <span className="block w-12 sm:w-20 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
+              THE COLLECTION
+              <span className="block w-12 sm:w-20 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
+            </motion.p>
+            <div className="flex flex-col gap-8 sm:gap-10 md:gap-12">
+              {hotels.slice(0, 5).map((hotel, i) => {
+                const imageLeft = i % 2 === 0;
+                const transform = cardTransforms[i] ?? cardTransforms[0];
+                return (
+                  <motion.div
+                    key={hotel.id}
+                    style={{
+                      y: transform.y,
+                      opacity: transform.opacity,
+                      scale: transform.scale,
+                      transformOrigin: "center center",
+                    }}
                   >
-                  <Link to={`/hotel/${String(hotel.id)}`} className="block">
-                    <div
-                      className="grid grid-cols-1 md:grid-cols-2 min-h-[340px] sm:min-h-[380px] md:min-h-[420px]"
+                    <motion.article
+                      className="overflow-hidden rounded-xl sm:rounded-2xl border border-white/10"
+                      style={{ boxShadow: "0 22px 48px rgba(0,0,0,0.42)" }}
+                      whileHover={{ boxShadow: "0 24px 52px rgba(0,0,0,0.48), 0 0 0 1px rgba(195,150,90,0.15)" }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <div
-                        className={`relative min-h-[260px] sm:min-h-[300px] md:min-h-full ${imageLeft ? "md:order-1" : "md:order-2"}`}
-                      >
-                        <motion.img
-                          src={hotel.image}
-                          alt={hotel.name}
-                          className="absolute inset-0 h-full w-full object-cover"
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ duration: 0.5 }}
-                        />
-                      </div>
-                      <div
-                        className={`flex flex-col justify-center p-6 sm:p-8 md:p-10 ${imageLeft ? "md:order-2" : "md:order-1"}`}
-                        style={{ background: "#0A0A0A" }}
-                      >
-                        <div className="flex items-start justify-between gap-3 mb-2">
-                          <span className="text-[10px] sm:text-xs uppercase tracking-[0.22em] text-[#C3965A]">
-                            {hotel.location}
-                          </span>
-                          <span
-                            className="flex items-center gap-1 shrink-0 text-xs font-medium px-2 py-1 rounded"
-                            style={{ background: "rgba(195,150,90,0.2)", color: "#C3965A" }}
+                      <Link to={`/hotel/${String(hotel.id)}`} className="block group">
+                        <div className="grid grid-cols-1 md:grid-cols-2 min-h-[340px] sm:min-h-[380px] md:min-h-[420px]">
+                          <div
+                            className={`relative min-h-[260px] sm:min-h-[300px] md:min-h-full overflow-hidden ${imageLeft ? "md:order-1" : "md:order-2"}`}
                           >
-                            <Star size={12} fill="currentColor" /> {hotel.rating}
-                          </span>
+                            <motion.img
+                              src={hotel.image}
+                              alt={hotel.name}
+                              className="absolute inset-0 h-full w-full object-cover"
+                              whileHover={{ scale: 1.04 }}
+                              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            />
+                            <div
+                              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                              style={{
+                                background: "linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.25) 100%)",
+                              }}
+                            />
+                          </div>
+                          <div
+                            className={`flex flex-col justify-center p-6 sm:p-8 md:p-10 relative ${imageLeft ? "md:order-2" : "md:order-1"}`}
+                            style={{
+                              background: "linear-gradient(180deg, #0A0A0A 0%, #080706 100%)",
+                            }}
+                          >
+                            <div
+                              className="absolute left-0 top-0 bottom-0 w-[3px] rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ background: "#C3965A" }}
+                            />
+                            <div className="flex items-start justify-between gap-3 mb-2" style={{ fontFamily: "var(--font-body)" }}>
+                              <span className="text-[10px] sm:text-xs uppercase tracking-[0.24em] font-medium" style={{ color: "#C3965A" }}>
+                                {hotel.location}
+                              </span>
+                              <span
+                                className="flex items-center gap-1 shrink-0 text-xs font-medium px-2.5 py-1 rounded"
+                                style={{ background: "rgba(195,150,90,0.18)", color: "#C3965A" }}
+                              >
+                                <Star size={12} fill="currentColor" /> {Number(hotel.rating).toFixed(1)}
+                              </span>
+                            </div>
+                            <h2
+                              className="text-2xl sm:text-3xl md:text-4xl tracking-tight text-white leading-tight"
+                              style={{ fontFamily: "var(--font-heading)" }}
+                            >
+                              {hotel.name}
+                            </h2>
+                            <p className="mt-3 sm:mt-4 text-white/72 text-sm sm:text-base leading-relaxed line-clamp-3" style={{ fontFamily: "var(--font-body)" }}>
+                              {hotel.description}
+                            </p>
+                            <span
+                              className="mt-5 sm:mt-6 inline-flex items-center gap-2 text-white/80 text-[11px] sm:text-xs font-medium uppercase tracking-[0.2em] group-hover:text-[#C3965A] transition-colors duration-300"
+                              style={{ fontFamily: "var(--font-body)" }}
+                            >
+                              Explore property
+                              <span aria-hidden className="group-hover:translate-x-0.5 inline-block transition-transform">—</span>
+                            </span>
+                          </div>
                         </div>
-                        <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-white leading-tight">
-                          {hotel.name}
-                        </h2>
-                        <p className="mt-3 sm:mt-4 text-white/75 text-sm sm:text-base leading-relaxed line-clamp-3">
-                          {hotel.description}
-                        </p>
-                        <span
-                          className="mt-5 sm:mt-6 inline-flex items-center gap-2 text-white/80 text-xs font-medium uppercase tracking-widest hover:text-[#C3965A] transition-colors"
-                        >
-                          Explore property
-                          <span aria-hidden>—</span>
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
-                </motion.div>
-              );
-            })}
+                      </Link>
+                    </motion.article>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ——— 2. Philosophy: solid black, centered, subheading with flanking lines ——— */}
-      <section id="philosophy" className="bg-black scroll-mt-20">
+      {/* ——— 2. Philosophy: same tone as hero — gold label, serif, flanking lines ——— */}
+      <section id="philosophy" className="scroll-mt-20 relative overflow-hidden" style={{ background: "#080706" }}>
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?q=80&w=1200')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25, margin: "-40px" }}
           variants={scrollReveal}
           transition={sectionTransition}
-          className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24 lg:py-28 text-center"
+          className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-20 sm:py-24 md:py-28 lg:py-32 text-center"
         >
           <p
             className="text-[10px] sm:text-xs uppercase tracking-[0.28em] flex items-center justify-center gap-4 mb-6 sm:mb-8"
-            style={{ color: "#C3965A" }}
+            style={{ color: "#C3965A", fontFamily: "var(--font-body)" }}
           >
-            <span className="block w-12 sm:w-16 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.8 }} aria-hidden />
+            <span className="block w-12 sm:w-20 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
             OUR PHILOSOPHY
-            <span className="block w-12 sm:w-16 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.8 }} aria-hidden />
+            <span className="block w-12 sm:w-20 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
           </p>
           <p
-            className="font-serif text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.4] text-white"
-            style={{ fontFamily: "var(--font-heading, 'Playfair Display', serif)" }}
+            className="text-xl sm:text-2xl md:text-3xl lg:text-[2.25rem] leading-[1.45] text-white"
+            style={{ fontFamily: "var(--font-heading)" }}
           >
             We believe that true luxury is found in{" "}
-            <em style={{ color: "#BFA37E", fontStyle: "italic" }}>
+            <em style={{ color: "#C3965A", fontStyle: "italic" }}>
               uninterrupted peace.
             </em>{" "}
             Handcrafted spaces designed for profound connection.
           </p>
+          <p className="mt-6 sm:mt-8 text-white/60 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed" style={{ fontFamily: "var(--font-body)" }}>
+            Each property in our collection—from Addis Ababa to Hawassa and Bishoftu—is chosen for this ideal.
+          </p>
         </motion.div>
       </section>
 
-      {/* ——— CTA: scroll reveal, flowing ——— */}
-      <section className="scroll-mt-20" style={{ background: "#0A0A0A" }}>
+      {/* ——— 3. CTA: gold accent, serif, primary button ——— */}
+      <section className="scroll-mt-20 relative" style={{ background: "linear-gradient(180deg, #0A0A0A 0%, #080706 100%)" }}>
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           variants={scrollReveal}
           transition={sectionTransition}
-          className="mx-auto max-w-3xl px-4 py-14 sm:py-16 md:py-20 text-center"
+          className="mx-auto max-w-3xl px-4 py-20 sm:py-24 md:py-28 text-center"
         >
-          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl tracking-tight text-white">
+          <p
+            className="text-[10px] sm:text-xs uppercase tracking-[0.28em] flex items-center justify-center gap-4 mb-5 sm:mb-6"
+            style={{ color: "#C3965A", fontFamily: "var(--font-body)" }}
+          >
+            <span className="block w-10 sm:w-14 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
+            DISCOVER
+            <span className="block w-10 sm:w-14 h-px shrink-0" style={{ background: "#C3965A", opacity: 0.7 }} aria-hidden />
+          </p>
+          <h3
+            className="text-3xl sm:text-4xl md:text-5xl tracking-tight text-white"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
             Begin Your Journey
           </h3>
-          <p className="mt-3 sm:mt-4 text-white/70 text-[15px] sm:text-base">
-            Explore our collection of hotels.
-          </p>
         </motion.div>
       </section>
 
-      <footer className="py-6 sm:py-8" style={{ background: "#080706" }}>
-        <div className="mx-auto max-w-7xl px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <Link to="/" className="font-serif text-lg text-[#C3965A] hover:opacity-90 transition">
+      {/* ——— Footer: serif brand, gold, subtle nav ——— */}
+      <footer
+        className="relative border-t border-white/10 py-8 sm:py-10"
+        style={{ background: "#080706" }}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <Link
+            to="/"
+            className="text-xl text-[#C3965A] hover:opacity-90 transition-opacity"
+            style={{ fontFamily: "var(--font-heading)" }}
+          >
             LF Collection
           </Link>
-          <p className="text-white/50 text-sm">© {new Date().getFullYear()} LF Collection.</p>
+          <nav className="flex items-center gap-6 sm:gap-8 text-sm" style={{ fontFamily: "var(--font-body)" }}>
+            <a href="#collection" className="text-white/70 hover:text-[#C3965A] transition-colors">
+              Collection
+            </a>
+            <a href="#philosophy" className="text-white/70 hover:text-[#C3965A] transition-colors">
+              Philosophy
+            </a>
+            <Link to="/hotels" className="text-white/70 hover:text-[#C3965A] transition-colors">
+              Hotels
+            </Link>
+          </nav>
+          <p className="text-white/50 text-sm" style={{ fontFamily: "var(--font-body)" }}>© {new Date().getFullYear()} LF Collection.</p>
         </div>
       </footer>
     </main>

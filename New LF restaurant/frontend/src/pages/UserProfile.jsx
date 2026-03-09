@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/client';
 import Navbar from '../components/Navbar';
 import { User, Mail, Phone, MapPin, Briefcase, Calendar, Edit } from 'lucide-react';
 import '../index.css';
@@ -27,28 +28,16 @@ const UserProfile = () => {
                 }
 
                 // Fetch fresh data from API
-                const response = await fetch('http://localhost:5000/api/auth/me', {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    setUser(data);
-                    setFormData(data);
-                    // Update session storage to keep it fresh
-                    sessionStorage.setItem('user', JSON.stringify(data));
-
-
-                } else {
-                    if (response.status === 401) {
-                        sessionStorage.removeItem('token');
-                        sessionStorage.removeItem('user');
-                        navigate('/login');
-                    }
-                }
+                const { data } = await api.get('/auth/me');
+                setUser(data);
+                setFormData(data);
+                sessionStorage.setItem('user', JSON.stringify(data));
             } catch (error) {
+                if (error.response?.status === 401) {
+                    sessionStorage.removeItem('token');
+                    sessionStorage.removeItem('user');
+                    navigate('/login');
+                }
                 console.error('Failed to fetch user profile:', error);
             }
         };
@@ -63,26 +52,13 @@ const UserProfile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const token = sessionStorage.getItem('token');
-            const res = await fetch('http://localhost:5000/api/auth/profile', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(formData)
-            });
-            const data = await res.json();
-            if (res.ok) {
-                setUser(data);
-                sessionStorage.setItem('user', JSON.stringify(data));
-                setIsEditing(false);
-            } else {
-                alert(data.message || 'Update failed');
-            }
+            const { data } = await api.put('/auth/profile', formData);
+            setUser(data);
+            sessionStorage.setItem('user', JSON.stringify(data));
+            setIsEditing(false);
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('Something went wrong');
+            alert(error.response?.data?.message || 'Update failed');
         }
     };
 
