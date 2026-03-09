@@ -1,4 +1,12 @@
 import 'dotenv/config';
+
+// Ensure DATABASE_URL starts with postgresql:// or postgres:// (fixes "psql '...'" or copy-paste issues on Render etc.)
+if (process.env.DATABASE_URL && !/^postgres(ql)?:\/\//i.test(process.env.DATABASE_URL)) {
+    process.env.DATABASE_URL = process.env.DATABASE_URL
+        .replace(/^psql\s*'?|'?\s*$/g, '')
+        .trim();
+}
+
 import http from 'http';
 import url from 'url';
 
