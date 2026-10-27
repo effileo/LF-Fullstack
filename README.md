@@ -1,4 +1,4 @@
-﻿# LF Hotel & Restaurant Management System
+# LF Hotel & Restaurant Management System
 
 A full-stack multi-tenant platform for managing luxury hotels, dining services, room reservations, and tenant administration.
 
@@ -6,9 +6,19 @@ Live Demo: [https://lf-fullstack.vercel.app](https://lf-fullstack.vercel.app)
 
 ---
 
-## Screenshot
+## Screenshots
 
-![LF Hotel & Restaurant Management System](docs/screenshots/landing-hero.png)
+### Landing Page & Hero
+![LF Hotel & Restaurant Management System - Hero](docs/screenshots/landing-hero.png)
+
+### The Collection - Featured Luxury Hotels
+| Sheraton Addis | Ethiopian Skylight Hotel |
+| :---: | :---: |
+| ![Sheraton Addis](docs/screenshots/collection-sheraton.png) | ![Ethiopian Skylight Hotel](docs/screenshots/collection-skylight.png) |
+
+| Haile Resort Hawassa & Kuriftu Resort | Hilton Addis Ababa |
+| :---: | :---: |
+| ![Haile Resort Hawassa](docs/screenshots/collection-haile-kuriftu.png) | ![Hilton Addis Ababa](docs/screenshots/collection-hilton.png) |
 
 ---
 
@@ -19,7 +29,7 @@ Live Demo: [https://lf-fullstack.vercel.app](https://lf-fullstack.vercel.app)
 - **Hotel Admin Portal**: Operational dashboard for hotel managers to manage listings, update room and meal inventories, track reservation requests, and publish announcements.
 - **Customer Reservation Flow**: Interactive catalog allowing visitors to explore luxury properties, browse categorized services (rooms, dining, spa, entertainment), and submit reservations.
 - **Customer Activity and Profile**: Authenticated user space to view active booking history, check reservation approval status, and update profile information.
-- **Authentication and RBAC**: Secure authentication powered by JSON Web Tokens (JWT) and bcrypt password hashing, enforcing three distinct roles: SUPER_ADMIN, HOTEL_ADMIN, and USER.
+- **Authentication and RBAC**: Secure authentication powered by JSON Web Tokens (JWT) and bcrypt password hashing, enforcing three distinct roles: `SUPER_ADMIN`, `HOTEL_ADMIN`, and `USER`.
 - **Responsive Luxury Interface**: Client interface styled with Tailwind CSS 4, Framer Motion animations, Lucide icons, and responsive layouts across mobile and desktop.
 
 ---
@@ -59,79 +69,79 @@ Public catalog browsing and new user registration are available directly on the 
 
 ### 1. Backend Setup
 
-`ash
-cd  New LF restaurant/backend
+```bash
+cd "New LF restaurant/backend"
 npm install
 cp .env.example .env
-`
+```
 
-Configure your environment variables in .env:
+Configure your environment variables in `.env`:
 
-`env
+```env
 DATABASE_URL=
 PORT=
 JWT_SECRET=
 FRONTEND_URL=
 CORS_ORIGINS=
-`
+```
 
 Run database migrations and seed default hotels:
 
-`ash
+```bash
 npx prisma migrate deploy
 node prisma/seed.js
 npm run dev
-`
+```
 
-The backend server will start on http://localhost:5000.
+The backend server will start on `http://localhost:5000`.
 
 ### 2. Frontend Setup
 
-`ash
-cd New LF restaurant/frontend
+```bash
+cd "New LF restaurant/frontend"
 npm install
 cp .env.example .env
-`
+```
 
-Configure your environment variables in .env:
+Configure your environment variables in `.env`:
 
-`env
+```env
 VITE_API_URL=
-`
+```
 
 Start the Vite development server:
 
-`ash
+```bash
 npm run dev
-`
+```
 
-The frontend application will start on http://localhost:5173.
+The frontend application will start on `http://localhost:5173`.
 
 ---
 
 ## Environment Variables
 
-### Backend (New LF restaurant/backend/.env)
+### Backend (`New LF restaurant/backend/.env`)
 
-- DATABASE_URL: PostgreSQL connection string (including sslmode and timeout settings)
-- PORT: Port number for the HTTP server (default: 5000)
-- JWT_SECRET: Secret key used for signing and verifying JWT tokens
-- FRONTEND_URL: Single allowed frontend domain origin for CORS headers
-- CORS_ORIGINS: Comma-separated list of allowed frontend domain origins for CORS
+- `DATABASE_URL`: PostgreSQL connection string (including sslmode and timeout settings)
+- `PORT`: Port number for the HTTP server (default: 5000)
+- `JWT_SECRET`: Secret key used for signing and verifying JWT tokens
+- `FRONTEND_URL`: Single allowed frontend domain origin for CORS headers
+- `CORS_ORIGINS`: Comma-separated list of allowed frontend domain origins for CORS
 
-### Frontend (New LF restaurant/frontend/.env)
+### Frontend (`New LF restaurant/frontend/.env`)
 
-- VITE_API_URL: Backend API base URL (e.g. http://localhost:5000 or production backend endpoint)
+- `VITE_API_URL`: Backend API base URL (e.g. `http://localhost:5000` or production backend endpoint)
 
 ---
 
 ## Repository Structure
 
-- File/: Supporting presentation and demonstration guide materials (Tip for demo.pdf).
-- New LF restaurant/: The primary active full-stack project workspace.
-- New LF restaurant/backend/: Node.js REST API service, Prisma database models, migrations, and seed scripts.
-- New LF restaurant/frontend/: React single-page client built with Vite, Tailwind CSS, and Framer Motion.
-- docs/screenshots/: Interface screenshots and visual assets for documentation.
+- `File/`: Supporting presentation and demonstration guide materials (Tip for demo.pdf).
+- `New LF restaurant/`: The primary active full-stack project workspace.
+- `New LF restaurant/backend/`: Node.js REST API service, Prisma database models, migrations, and seed scripts.
+- `New LF restaurant/frontend/`: React single-page client built with Vite, Tailwind CSS, and Framer Motion.
+- `docs/screenshots/`: Interface screenshots and visual assets for documentation.
 
 ---
 
